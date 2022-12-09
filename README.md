@@ -1,7 +1,7 @@
-    # num7
-    '''
-                --- SUPREME PRECISION GENERAL PURPOSE ARITHMETIC-LOGIC CLASS DOCUMENTATION ---
-
+# num7
+SUPREME PRECISION GENERAL PURPOSE ARITHMETIC-LOGIC CLASS DOCUMENTATION
+    
+'''
     Num is a lightweight floating point numeric class for arbitrary precision results with always supreme precision.        
 
     Easy to use like school math and WITHOUT IEEE754 ISSUES or +0 AND -0 FAILURES, it can be deployed for
