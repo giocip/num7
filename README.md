@@ -1,7 +1,7 @@
 # num7
 SUPREME PRECISION GENERAL PURPOSE ARITHMETIC-LOGIC CLASS DOCUMENTATION
     
-'''
+    '''
     Num is a lightweight floating point numeric class for arbitrary precision results with always supreme precision.        
 
     Easy to use like school math and WITHOUT IEEE754 ISSUES or +0 AND -0 FAILURES, it can be deployed for
@@ -260,4 +260,4 @@ SUPREME PRECISION GENERAL PURPOSE ARITHMETIC-LOGIC CLASS DOCUMENTATION
     print((Num('1.123456789e-10_000') * Num('3.987654321e-10_000')).num2exp()) #4479957319112635269e-20018
     print((Num('1.123456789e-10_000') / Num('3.987654321e-10_000'))) #0.28173374584742497292307298769992856660154820877213142969420392746224704666420356
     
-'''
+    '''
