@@ -114,7 +114,7 @@
                 >>> Num('+2.5521') + Num('-3.3321') # Num('-0.78')
                 
         ######################## advanced logic programming snippet ########################
-    ### LOOP EXAMPLE >>>        
+    #### LOOP EXAMPLE >>>        
 from num import Num, Num as calc
 i = Num(0)
 while i < Num('1.0'):
@@ -128,7 +128,7 @@ while i:
         continue
     print(i) #0.4 0.3 0.2 0.1 0.0  
 
-    ### ROUNDING AND ACCOUNTING >>>
+    #### ROUNDING AND ACCOUNTING >>>
 from num import Num, Num as calc
 p = Num('11.19')               #PRICE -Toslink cable for soundbar
 pd = round(p.f_price_over(-7)) #PRICE DISCOUNTED 7%
