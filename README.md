@@ -113,151 +113,151 @@
                 >>> Num('-3.3321') # Num('-3.3321')
                 >>> Num('+2.5521') + Num('-3.3321') # Num('-0.78')
                 
-' advanced logic programming snippet '
-     LOOP EXAMPLE >>>        
-from num import Num, Num as calc
-i = Num(0)
-while i < Num('1.0'):
-    i.inc('0.1') #i += Num('0.1')
-    if i <= Num('0.5'):
-        continue
-    print(i) # 0.6, 0.7, 0.8, 0.9, 1.0
-while i:
-    i.dec('0.1') #i -= Num('0.1')
-    if i >= Num('0.5'):
-        continue
-    print(i) #0.4 0.3 0.2 0.1 0.0  
+                ' advanced logic programming snippet '
+                     LOOP EXAMPLE >>>        
+                from num import Num, Num as calc
+                i = Num(0)
+                while i < Num('1.0'):
+                    i.inc('0.1') #i += Num('0.1')
+                    if i <= Num('0.5'):
+                        continue
+                    print(i) # 0.6, 0.7, 0.8, 0.9, 1.0
+                while i:
+                    i.dec('0.1') #i -= Num('0.1')
+                    if i >= Num('0.5'):
+                        continue
+                    print(i) #0.4 0.3 0.2 0.1 0.0  
 
-     ROUNDING AND ACCOUNTING >>>
-from num import Num, Num as calc
-p = Num('11.19')               #PRICE -Toslink cable for soundbar
-pd = round(p.f_price_over(-7)) #PRICE DISCOUNTED 7%
-d = round(p - pd)              #DISCOUNT
-p_noTAX = round(p.f_price_spinoff(22)) #COST ITEM WITHOUT TAX 22%
-TAX = round(p - p_noTAX)               #TAX 22%
-print(F'price={p} PAYED={pd} discount={d} COST={p_noTAX} TAX={TAX}') #price=11.19 PAYED=10.41 discount=0.78 COST=9.17 TAX=2.02
+                     ROUNDING AND ACCOUNTING >>>
+                from num import Num, Num as calc
+                p = Num('11.19')               #PRICE -Toslink cable for soundbar
+                pd = round(p.f_price_over(-7)) #PRICE DISCOUNTED 7%
+                d = round(p - pd)              #DISCOUNT
+                p_noTAX = round(p.f_price_spinoff(22)) #COST ITEM WITHOUT TAX 22%
+                TAX = round(p - p_noTAX)               #TAX 22%
+                print(F'price={p} PAYED={pd} discount={d} COST={p_noTAX} TAX={TAX}') #price=11.19 PAYED=10.41 discount=0.78 COST=9.17 TAX=2.02
 
-     PERFORMANCE EVALUATION AND SQUARENESS >>>
-#from sys import set_int_max_str_digits #PYTHON 3.11
-from num import Num, Num as calc
-from time import perf_counter
-#set_int_max_str_digits(1_000_000) #PYTHON 3.11
-digits = 109
-tic = perf_counter() # Start Time
-a = Num('-1.123456789'+'e-100')      #calculating division 10**100...      
-toc = perf_counter() # End Time
-T1 = toc - tic
-print(f"a finished sec. {T1:1.6f}")
+                     PERFORMANCE EVALUATION AND SQUARENESS >>>
+                #from sys import set_int_max_str_digits #PYTHON 3.11
+                from num import Num, Num as calc
+                from time import perf_counter
+                #set_int_max_str_digits(1_000_000) #PYTHON 3.11
+                digits = 109
+                tic = perf_counter() # Start Time
+                a = Num('-1.123456789'+'e-100')      #calculating division 10**100...      
+                toc = perf_counter() # End Time
+                T1 = toc - tic
+                print(f"a finished sec. {T1:1.6f}")
 
-tic = perf_counter() # Start Time
-b = ('-1.123456789') >> Num('100.0') #calculating division 10**100... 
-toc = perf_counter() # End Time
-T2 = toc - tic
-print(f"b finished sec. {T2:1.6f}")
-R = Num.f_perf_time(str(T1), str(T2))                                         # a finished sec. 0.000034  b finished sec. 0.002430 
-print('PCT=>', R[0].round(), 'SCALE=>', R[1].round(), 'SQUARENESS=>', a == b) # PCT= -98.6 SCALE= -70.47 SQUARENESS=> True
+                tic = perf_counter() # Start Time
+                b = ('-1.123456789') >> Num('100.0') #calculating division 10**100... 
+                toc = perf_counter() # End Time
+                T2 = toc - tic
+                print(f"b finished sec. {T2:1.6f}")
+                R = Num.f_perf_time(str(T1), str(T2))                                         # a finished sec. 0.000034  b finished sec. 0.002430 
+                print('PCT=>', R[0].round(), 'SCALE=>', R[1].round(), 'SQUARENESS=>', a == b) # PCT= -98.6 SCALE= -70.47 SQUARENESS=> True
 
-     SCIENTIFIC NOTATION AND HIGH PRECISION RESULTS >>>
-from num import Num, Num as calc
-a = Num('1_000_000_000_000_000_000_000.0') #standard notation
-b = Num('1e21') #scientific notation
-SUM = a + b #SUM
-ieee754 = float(a)+float(b) 
-print('SUM == ieee754', SUM == Num(str(ieee754)), ' SUM =>', SUM.num2exp()) #SUM == ieee754 True  SUM => 2e21
+                     SCIENTIFIC NOTATION AND HIGH PRECISION RESULTS >>>
+                from num import Num, Num as calc
+                a = Num('1_000_000_000_000_000_000_000.0') #standard notation
+                b = Num('1e21') #scientific notation
+                SUM = a + b #SUM
+                ieee754 = float(a)+float(b) 
+                print('SUM == ieee754', SUM == Num(str(ieee754)), ' SUM =>', SUM.num2exp()) #SUM == ieee754 True  SUM => 2e21
 
-a = Num('1_000_000_000_000_000_000_000.0') #standard notation
-b = Num('1e21') #scientific notation
-MUL = a * b #MUL
-ieee754 = float(a)*float(b) 
-print('MUL == ieee754', MUL == Num(str(ieee754)), ' MUL =>', MUL.num2exp()) #MUL == ieee754 True  MUL => 1e42
+                a = Num('1_000_000_000_000_000_000_000.0') #standard notation
+                b = Num('1e21') #scientific notation
+                MUL = a * b #MUL
+                ieee754 = float(a)*float(b) 
+                print('MUL == ieee754', MUL == Num(str(ieee754)), ' MUL =>', MUL.num2exp()) #MUL == ieee754 True  MUL => 1e42
 
-a = '1.23456789'
-b = '9.87654321'
-MUL = Num(a) * Num(b) #MUL
-ieee754 = float(a)*float(b)
-print('MUL == ieee754', MUL == Num(str(ieee754)), 'MUL =>', MUL, float(a)*float(b), '=> IEEE754 PRECISION FAILURE!') #MUL == ieee754 False MUL => 12.1932631112635269 12.193263111263525 => IEEE754 PRECISION FAILURE!
+                a = '1.23456789'
+                b = '9.87654321'
+                MUL = Num(a) * Num(b) #MUL
+                ieee754 = float(a)*float(b)
+                print('MUL == ieee754', MUL == Num(str(ieee754)), 'MUL =>', MUL, float(a)*float(b), '=> IEEE754 PRECISION FAILURE!') #MUL == ieee754 False MUL => 12.1932631112635269 12.193263111263525 => IEEE754 PRECISION FAILURE!
 
-a = '1.23456789e320' #scientific notation
-b = '9.87654321e320'
-MUL = Num(a) * Num(b) #MUL
-ieee754 = float(a)*float(b)
-print('MUL == ieee754', MUL.str() == str(ieee754), 'MUL =>', MUL.num2exp(), float(a)*float(b), '=> IEEE754 inf FAILURE!') #MUL == ieee754 False MUL => 121932631112635269e624 inf => IEEE754 inf FAILURE!
+                a = '1.23456789e320' #scientific notation
+                b = '9.87654321e320'
+                MUL = Num(a) * Num(b) #MUL
+                ieee754 = float(a)*float(b)
+                print('MUL == ieee754', MUL.str() == str(ieee754), 'MUL =>', MUL.num2exp(), float(a)*float(b), '=> IEEE754 inf FAILURE!') #MUL == ieee754 False MUL => 121932631112635269e624 inf => IEEE754 inf FAILURE!
 
-a = '2e320' #scientific notation
-b = '3e-320'
-MUL = Num(a) * Num(b) #MUL
-ieee754 = float(a)*float(b)
-print('MUL == ieee754', MUL.str() == str(ieee754), 'MUL =>', MUL.num2exp(), ieee754, '=> IEEE754 inf FAILURE!') #MUL == ieee754 False MUL => 6.0 inf => IEEE754 inf FAILURE!
+                a = '2e320' #scientific notation
+                b = '3e-320'
+                MUL = Num(a) * Num(b) #MUL
+                ieee754 = float(a)*float(b)
+                print('MUL == ieee754', MUL.str() == str(ieee754), 'MUL =>', MUL.num2exp(), ieee754, '=> IEEE754 inf FAILURE!') #MUL == ieee754 False MUL => 6.0 inf => IEEE754 inf FAILURE!
 
-a = '1e200' #scientific notation
-b = '5e1200'
-T1 = Num(a, 1200) #ultra precision (over 80 digits default) floating point division must be specified!
-T2 = Num(b)
-DIV = T1 / T2 #DIV
-ieee754 = float(a)/float(b)
-print('DIV == ieee754', DIV.str() == str(ieee754), 'DIV =>', DIV.num2exp(), ieee754, '=> IEEE754 precision FAILURE!') #DIV == ieee754 False DIV => 2e-1001 0.0 => IEEE754 precision FAILURE!
+                a = '1e200' #scientific notation
+                b = '5e1200'
+                T1 = Num(a, 1200) #ultra precision (over 80 digits default) floating point division must be specified!
+                T2 = Num(b)
+                DIV = T1 / T2 #DIV
+                ieee754 = float(a)/float(b)
+                print('DIV == ieee754', DIV.str() == str(ieee754), 'DIV =>', DIV.num2exp(), ieee754, '=> IEEE754 precision FAILURE!') #DIV == ieee754 False DIV => 2e-1001 0.0 => IEEE754 precision FAILURE!
 
-     FLOAT TO NUM CONVERSION LIST >>>
-from num import Num, Num as calc
-L = [1011, 0.0, 9.998412, 7.0, 0.123, -2.0123, 10, 6]
-LN= Num.float2num_list(L)
-print(list(i.n for i in LN)) #['1011.0', '0.0', '9.998412', '7.0', '0.123', '-2.0123', '10.0', '6.0']
-print(list(i for i in LN))   #[Num('1011.0'), Num('0.0'), Num('9.998412'), Num('7.0'), Num('0.123'), Num('-2.0123'), Num('10.0'), Num('6.0')]
+                     FLOAT TO NUM CONVERSION LIST >>>
+                from num import Num, Num as calc
+                L = [1011, 0.0, 9.998412, 7.0, 0.123, -2.0123, 10, 6]
+                LN= Num.float2num_list(L)
+                print(list(i.n for i in LN)) #['1011.0', '0.0', '9.998412', '7.0', '0.123', '-2.0123', '10.0', '6.0']
+                print(list(i for i in LN))   #[Num('1011.0'), Num('0.0'), Num('9.998412'), Num('7.0'), Num('0.123'), Num('-2.0123'), Num('10.0'), Num('6.0')]
 
-     SAVE NUMERIC LIST TO DISK FILE >>>
-Num.f_filewrite(L) #
+                     SAVE NUMERIC LIST TO DISK FILE >>>
+                Num.f_filewrite(L) #
 
-     READ NUMERIC LIST FROM DISK FILE (nums.txt default filename) >>>
-L = Num.f_fileread(); print(L) #[Num('1011.0'), Num('0.0'), Num('9.998412'), Num('7.0'), Num('0.123'), Num('-2.0123'), Num('10.0'), Num('6.0')]
+                     READ NUMERIC LIST FROM DISK FILE (nums.txt default filename) >>>
+                L = Num.f_fileread(); print(L) #[Num('1011.0'), Num('0.0'), Num('9.998412'), Num('7.0'), Num('0.123'), Num('-2.0123'), Num('10.0'), Num('6.0')]
 
-#**************************************************************************************************************#
-#*********************** FAQ ************************ FAQ *********************** FAQ *************************#
-#**************************************************************************************************************#
+                #**************************************************************************************************************#
+                #*********************** FAQ ************************ FAQ *********************** FAQ *************************#
+                #**************************************************************************************************************#
 
-Q. I usually try to add 0.1 to 0.2 in python3 with this code:
-       >>> print(0.1 + 0.2)
-   and the result is:
-       >>> 0.30000000000000004
-   How instead can it get exactly 0.3?
-A. Using Num class >>>
-from num import Num, Num as calc
-print(Num('0.1') + Num('0.2'))  #calc.add('0.1', '0.2') #0.3
+                Q. I usually try to add 0.1 to 0.2 in python3 with this code:
+                       >>> print(0.1 + 0.2)
+                   and the result is:
+                       >>> 0.30000000000000004
+                   How instead can it get exactly 0.3?
+                A. Using Num class >>>
+                from num import Num, Num as calc
+                print(Num('0.1') + Num('0.2'))  #calc.add('0.1', '0.2') #0.3
 
-Q. I'll get an arror when i usually type: 
-       >>>  Num(0.1) #ValueError: Num.__init__ => float, type not valid: 0.1   
-   What is wrong?
-A. You must use quotes or string conversion with built-in str function:
-       >>> from num import Num, Num as calc
-       >>> Num('0.1')    #Num('0.1')
-       >>> Num(str(0.1)) #Num('0.1')
-       
-Q. How can i convert a regular float to a Decimal?
-A. With Num.ieee754() method >>>
-from num import Num, Num as calc
-a=0.1; b=0.2; 
-c=a+b #0.30000000000000004 => PRECISION FAILURE!
-an = Num.ieee754(a); print(an)     #0.1000000000000000055511151231257827021181583404541015625
-bn = Num.ieee754(b); print(bn)     #0.200000000000000011102230246251565404236316680908203125
-cn = Num.ieee754(a+b);
-print(cn, '=> PRECISION FAILURE!') #0.3000000000000000444089209850062616169452667236328125 => PRECISION FAILURE!
-T = calc.add(an, bn)
-print(T, '=> OK.')                 #0.3000000000000000166533453693773481063544750213623046875 => OK.
+                Q. I'll get an arror when i usually type: 
+                       >>>  Num(0.1) #ValueError: Num.__init__ => float, type not valid: 0.1   
+                   What is wrong?
+                A. You must use quotes or string conversion with built-in str function:
+                       >>> from num import Num, Num as calc
+                       >>> Num('0.1')    #Num('0.1')
+                       >>> Num(str(0.1)) #Num('0.1')
 
-Q. I have two float variables in my code:
-        >>> a = 0.1; b = 0.2
-    How can i convert them in Num type?
-A. With Num.float2num method (or directly with str() bult-in function) >>>
-from num import Num, Num as calc
-a = 0.1; b = 0.2 #
-an= Num.float2num(a); bn= Num.float2num(b) #an= Num(str(a)); bn= Num(str(b))   
-print(an+bn, 'OK. VS', a+b, 'PRECISION FAILURE!') #0.3 OK. VS 0.30000000000000004 PRECISION FAILURE!
+                Q. How can i convert a regular float to a Decimal?
+                A. With Num.ieee754() method >>>
+                from num import Num, Num as calc
+                a=0.1; b=0.2; 
+                c=a+b #0.30000000000000004 => PRECISION FAILURE!
+                an = Num.ieee754(a); print(an)     #0.1000000000000000055511151231257827021181583404541015625
+                bn = Num.ieee754(b); print(bn)     #0.200000000000000011102230246251565404236316680908203125
+                cn = Num.ieee754(a+b);
+                print(cn, '=> PRECISION FAILURE!') #0.3000000000000000444089209850062616169452667236328125 => PRECISION FAILURE!
+                T = calc.add(an, bn)
+                print(T, '=> OK.')                 #0.3000000000000000166533453693773481063544750213623046875 => OK.
 
-Q. Can i do add or other math operations also with 10_000 digits after floating point?
-A. Yes, you can. >>>
-from num import Num, Num as calc
-print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #511111111e-10008
-print((Num('1.123456789e-10_000') - Num('3.987654321e-10_000')).num2exp()) #-2864197532e-10009
-print((Num('1.123456789e-10_000') * Num('3.987654321e-10_000')).num2exp()) #4479957319112635269e-20018
-print((Num('1.123456789e-10_000') / Num('3.987654321e-10_000'))) #0.28173374584742497292307298769992856660154820877213142969420392746224704666420356
+                Q. I have two float variables in my code:
+                        >>> a = 0.1; b = 0.2
+                    How can i convert them in Num type?
+                A. With Num.float2num method (or directly with str() bult-in function) >>>
+                from num import Num, Num as calc
+                a = 0.1; b = 0.2 #
+                an= Num.float2num(a); bn= Num.float2num(b) #an= Num(str(a)); bn= Num(str(b))   
+                print(an+bn, 'OK. VS', a+b, 'PRECISION FAILURE!') #0.3 OK. VS 0.30000000000000004 PRECISION FAILURE!
+
+                Q. Can i do add or other math operations also with 10_000 digits after floating point?
+                A. Yes, you can. >>>
+                from num import Num, Num as calc
+                print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #511111111e-10008
+                print((Num('1.123456789e-10_000') - Num('3.987654321e-10_000')).num2exp()) #-2864197532e-10009
+                print((Num('1.123456789e-10_000') * Num('3.987654321e-10_000')).num2exp()) #4479957319112635269e-20018
+                print((Num('1.123456789e-10_000') / Num('3.987654321e-10_000'))) #0.28173374584742497292307298769992856660154820877213142969420392746224704666420356
 
 '''
