@@ -113,7 +113,7 @@
                 >>> Num('-3.3321') # Num('-3.3321')
                 >>> Num('+2.5521') + Num('-3.3321') # Num('-0.78')
                 
-        ######################## advanced logic programming snippet ########################
+        ' advanced logic programming snippet '
      LOOP EXAMPLE >>>        
 from num import Num, Num as calc
 i = Num(0)
