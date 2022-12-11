@@ -1,5 +1,5 @@
 # num7 PACKAGE PyPI
-SUPREME PRECISION GENERAL PURPOSE ARITHMETIC-LOGIC CLASS DOCUMENTATION
+SUPREME PRECISION GENERAL PURPOSE DECIMAL ARITHMETIC-LOGIC CLASS
     
     '''
     Num is a lightweight floating point numeric class for arbitrary precision results with always supreme precision.        
