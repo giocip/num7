@@ -236,7 +236,7 @@ A. Using Num class >>>
 	from num7 import Num, Num as calc  
 	print(Num('0.1') + Num('0.2'))  #calc.add('0.1', '0.2') #0.3  
 
-Q. I'll get an arror when i usually type:  
+Q. I'll get an error when i usually type:  
 	
 	>>> Num(0.1)    
  
