@@ -1,4 +1,4 @@
-''' --- SUPREME PRECISION GENERAL PURPOSE ARITHMETIC-LOGIC CLASS --- (SEE DOC AT THE END) ''' 
+''' --- SUPREME PRECISION GENERAL PURPOSE ARITHMETIC-LOGIC DECIMAL CLASS --- (SEE DOC AT THE END) ''' 
 
 class Num:
     ''' object self attributes list allowed ''' 
@@ -904,7 +904,7 @@ class Num:
         return str('Num(\'' + self.n + '\')')
     
     def doc():
-        return '''        --- SUPREME PRECISION GENERAL PURPOSE ARITHMETIC-LOGIC CLASS DOCUMENTATION ---
+        return '''        --- SUPREME PRECISION GENERAL PURPOSE ARITHMETIC-LOGIC DECIMAL CLASS DOCUMENTATION ---
 
         Num is a lightweight floating point numeric class for arbitrary precision results with always supreme precision.        
         
@@ -913,7 +913,7 @@ class Num:
         
         HOW TO USE (integer numeric strings (ex. '2.0') MUST BE SUFFIXED WITH .0):                        
         --- CALCULATOR MODE ---           
-                           >>> from num import Num, Num as calc
+                           >>> from num7 import Num, Num as calc
                            
         ADDITION:          >>> calc.add('-5.3', '2.1')    # Num('-3.2')
         SUBTRACTION:       >>> calc.sub('-5.3', '2.1')    # Num('-7.4')
@@ -936,7 +936,7 @@ class Num:
         REPL:              >>> a = calc('0.1'); b = calc('0.2'); print(calc.add(a, b))    # 0.3
 
         CODING:
-            >>> from num import Num, Num as calc
+            >>> from num7 import Num, Num as calc
         
             (=) assignment:
                 >>> a = Num('3.0'); b = Num('5.0'); c = Num('0.0'); #
@@ -1019,7 +1019,7 @@ class Num:
                 
         ######################## advanced logic programming snippet ########################
     ### LOOP EXAMPLE >>>        
-from num import Num, Num as calc
+from num7 import Num, Num as calc
 i = Num(0)
 while i < Num('1.0'):
     i.inc('0.1') #i += Num('0.1')
@@ -1033,7 +1033,7 @@ while i:
     print(i) #0.4 0.3 0.2 0.1 0.0  
 
     ### ROUNDING AND ACCOUNTING >>>
-from num import Num, Num as calc
+from num7 import Num, Num as calc
 p = Num('11.19')               #PRICE -Toslink cable for soundbar
 pd = round(p.f_price_over(-7)) #PRICE DISCOUNTED 7%
 d = round(p - pd)              #DISCOUNT
@@ -1043,7 +1043,7 @@ print(F'price={p} PAYED={pd} discount={d} COST={p_noTAX} TAX={TAX}') #price=11.1
 
     ### PERFORMANCE EVALUATION AND SQUARENESS >>>
 #from sys import set_int_max_str_digits #PYTHON 3.11
-from num import Num, Num as calc
+from num7 import Num, Num as calc
 from time import perf_counter
 #set_int_max_str_digits(1_000_000) #PYTHON 3.11
 digits = 109
@@ -1062,7 +1062,7 @@ R = Num.f_perf_time(str(T1), str(T2))                                         # 
 print('PCT=>', R[0].round(), 'SCALE=>', R[1].round(), 'SQUARENESS=>', a == b) # PCT= -98.6 SCALE= -70.47 SQUARENESS=> True
 
     ### SCIENTIFIC NOTATION AND HIGH PRECISION RESULTS >>>
-from num import Num, Num as calc
+from num7 import Num, Num as calc
 a = Num('1_000_000_000_000_000_000_000.0') #standard notation
 b = Num('1e21') #scientific notation
 SUM = a + b #SUM
@@ -1102,7 +1102,7 @@ ieee754 = float(a)/float(b)
 print('DIV == ieee754', DIV.str() == str(ieee754), 'DIV =>', DIV.num2exp(), ieee754, '=> IEEE754 precision FAILURE!') #DIV == ieee754 False DIV => 2e-1001 0.0 => IEEE754 precision FAILURE!
 
     ### FLOAT TO NUM CONVERSION LIST >>>
-from num import Num, Num as calc
+from num7 import Num, Num as calc
 L = [1011, 0.0, 9.998412, 7.0, 0.123, -2.0123, 10, 6]
 LN= Num.float2num_list(L)
 print(list(i.n for i in LN)) #['1011.0', '0.0', '9.998412', '7.0', '0.123', '-2.0123', '10.0', '6.0']
@@ -1122,22 +1122,22 @@ Q. I usually try to add 0.1 to 0.2 in python3 with this code:
        >>> print(0.1 + 0.2)
    and the result is:
        >>> 0.30000000000000004
-   How instead can it get exactly 0.3?
+   How instead can it gets exactly 0.3?
 A. Using Num class >>>
-from num import Num, Num as calc
+from num7 import Num, Num as calc
 print(Num('0.1') + Num('0.2'))  #calc.add('0.1', '0.2') #0.3
 
 Q. I'll get an arror when i usually type: 
        >>>  Num(0.1) #ValueError: Num.__init__ => float, type not valid: 0.1   
    What is wrong?
 A. You must use quotes or string conversion with built-in str function:
-       >>> from num import Num, Num as calc
+       >>> from num7 import Num, Num as calc
        >>> Num('0.1')    #Num('0.1')
        >>> Num(str(0.1)) #Num('0.1')
        
 Q. How can i convert a regular float to a Decimal?
 A. With Num.ieee754() method >>>
-from num import Num, Num as calc
+from num7 import Num, Num as calc
 a=0.1; b=0.2; 
 c=a+b #0.30000000000000004 => PRECISION FAILURE!
 an = Num.ieee754(a); print(an)     #0.1000000000000000055511151231257827021181583404541015625
@@ -1151,14 +1151,14 @@ Q. I have two float variables in my code:
         >>> a = 0.1; b = 0.2
     How can i convert them in Num type?
 A. With Num.float2num method (or directly with str() bult-in function) >>>
-from num import Num, Num as calc
+from num7 import Num, Num as calc
 a = 0.1; b = 0.2 #
 an= Num.float2num(a); bn= Num.float2num(b) #an= Num(str(a)); bn= Num(str(b))   
 print(an+bn, 'OK. VS', a+b, 'PRECISION FAILURE!') #0.3 OK. VS 0.30000000000000004 PRECISION FAILURE!
 
 Q. Can i do add or other math operations also with 10_000 digits after floating point?
 A. Yes, you can. >>>
-from num import Num, Num as calc
+from num7 import Num, Num as calc
 print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #511111111e-10008
 print((Num('1.123456789e-10_000') - Num('3.987654321e-10_000')).num2exp()) #-2864197532e-10009
 print((Num('1.123456789e-10_000') * Num('3.987654321e-10_000')).num2exp()) #4479957319112635269e-20018
