@@ -13,14 +13,14 @@ for web e-commerce developing, accounting apps and general math programs include
 	ADDITION:          >>> calc.add('-5.3', '2.1')    #Num('-3.2')  
 	SUBTRACTION:       >>> calc.sub('-5.3', '2.1')    #Num('-7.4')  
 	MULTIPLICATION:    >>> calc.mul('-5.3', '2.1')    #Num('-11.13')  
-	DIVISION:          >>> calc.div('-5.3', '2.1')    # Num('-2.52380952380952380952380952380952380952380952380952380952380952380952380952380952')  
+	DIVISION:          >>> calc.div('-5.3', '2.1')    #Num('-2.52380952380952380952380952380952380952380952380952380952380952380952380952380952')  
 	M+:                >>> M = calc('0.0'); M.inc('3.0'); M.inc('3.3'); M.inc('3.7'); print(M) #10.0  
 	M-:                >>>                  M.dec('5.0'); M.dec('3.3'); M.dec('1.5'); print(M) #0.2  
 	MC:                >>> M.clear(); print(M) #0.0  
 	INT   DIV AND REM: >>> calc.divmod('5.0', '3.0')  #(Num('1.0'), Num('2.0')) => tuple  
 	FLOAT DIV AND REM: >>> calc.divmod('5.2', '3.1')  #(Num('1.0'), Num('2.1')) => tuple  
 	POWER:             >>> calc.pow('-5.3', '2.0')    #Num('28.09')  
-	SQRT:              >>> calc.sqrt('2.0')           # Num('1.41421356237309504880168872420969807856967187537694807317667973799073247846210703')  
+	SQRT:              >>> calc.sqrt('2.0')           #Num('1.41421356237309504880168872420969807856967187537694807317667973799073247846210703')  
 	ROUND:             >>> calc.sqrt('2.0').round(2)  #Num('1.41')  
 	ABSOLUTE VALUE     >>> calc.abs('-3.0')           #Num('3.0')  
 	SUM:               >>> cart = ['19.32','18.37','15.13']; calc.sum(*cart)          #Num('52.82')  
@@ -81,7 +81,7 @@ Division precision (ex. 128 decs) may be specified as parameter after numeric st
 (**) power operator and pow python3 built-in function:  
 
 	>>> a = Num('2.22123') ** 64; print(a) # 15204983311631674774944.65147209888660757554174463321311015807893679105748958794491681177995203669698667160837739445605536688871012507194541849848681968140805876570485027380472936734094801420552285940765338219588362327695177798251793912104057999943308320501195784173135380826413054938730768027747418766018606636039075568645106645889100039914241  
-	>>> print(a.len()) #(23, 320) digits len tuple  
+	>>> print(a.len())      #(23, 320) digits len tuple  
 	>>> print(Num(Num.pi))  #3.141592654  
 	>>> pow(Num(Num.pi), 8) #Num('9488.531025982131642534428505085353941520356351078169077371202330414440366336')  
 
@@ -110,7 +110,7 @@ logic (in, not in, is, is not, <, <=, >, >=, !=, ==) and relational operators (a
 	>>> a >  b; a >  c; b >  c #False True  True  
 	>>> a >= a; a >= c; b >= c #True  True  True  
 	>>> c == -2*b; a == c + 2*b ; a != a+b+c #True  True  True  
-	>>> a and b; a or b; not a     #Num('0.0') Num('0.1') True  
+	>>> a and b; a or b; not a #Num('0.0') Num('0.1') True  
 	>>> True if a and b else False #False  
 	>>> True if a or  b else False #True  
 
