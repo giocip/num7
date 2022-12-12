@@ -271,7 +271,7 @@ Q. I have two float variables in my code:
 	>>> a = 0.1; b = 0.2  
 	
 How can i convert them in Num type?  
-A. With Num.float2num method (or directly with str() bult-in function) >>>  
+A. With Num.float2num method (or directly with str() built-in function) >>>  
 
 	from num7 import Num  
 	a = 0.1; b = 0.2 #  
