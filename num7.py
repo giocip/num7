@@ -1150,7 +1150,7 @@ print(T, '=> OK.')                 #0.300000000000000016653345369377348106354475
 Q. I have two float variables in my code:
         >>> a = 0.1; b = 0.2
     How can i convert them in Num type?
-A. With Num.float2num method (or directly with str() bult-in function) >>>
+A. With Num.float2num method (or directly with str() built-in function) >>>
 from num7 import Num, Num as calc
 a = 0.1; b = 0.2 #
 an= Num.float2num(a); bn= Num.float2num(b) #an= Num(str(a)); bn= Num(str(b))   
