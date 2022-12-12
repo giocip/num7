@@ -1,4 +1,4 @@
-# SUPREME PRECISION GENERAL PURPOSE DECIMAL ARITHMETIC-LOGIC CLASS
+# SUPREME PRECISION GENERAL PURPOSE ARITHMETIC-LOGIC DECIMAL CLASS
 ## _DESCRIPTION AND DOC_
 
 Num is a lightweight floating point numeric class for arbitrary precision results with always supreme precision.
