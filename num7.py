@@ -1037,7 +1037,7 @@ from num7 import Num, Num as calc
 p = Num('11.19')               #PRICE -Toslink cable for soundbar
 pd = round(p.f_price_over(-7)) #PRICE DISCOUNTED 7%
 d = round(p - pd)              #DISCOUNT
-p_noTAX = round(p.f_price_spinoff(22)) #COST ITEM WITHOUT TAX 22%
+p_noTAX = round(p.f_price_spinoff(22)) #ITEM COST WITHOUT TAX 22%
 TAX = round(p - p_noTAX)               #TAX 22%
 print(F'price={p} PAYED={pd} discount={d} COST={p_noTAX} TAX={TAX}') #price=11.19 PAYED=10.41 discount=0.78 COST=9.17 TAX=2.02
 
