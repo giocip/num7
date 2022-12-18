@@ -285,4 +285,17 @@ A. Yes, you can. >>>
 	print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #511111111e-10008  
 	print((Num('1.123456789e-10_000') - Num('3.987654321e-10_000')).num2exp()) #-2864197532e-10009  
 	print((Num('1.123456789e-10_000') * Num('3.987654321e-10_000')).num2exp()) #4479957319112635269e-20018  
-	print((Num('1.123456789e-10_000') / Num('3.987654321e-10_000'))) #0.28173374584742497292307298769992856660154820877213142969420392746224704666420356  
+	print((Num('1.123456789e-10_000') / Num('3.987654321e-10_000'))) #0.28173374584742497292307298769992856660154820877213142969420392746224704666420356 
+	
+Q. With Python 3.11 it gets an error when running this code >>>  
+
+	from num7 import Num  
+	print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #511111111e-10008  
+	
+How can fix it?
+A. Set the max string digits allowed in this way >>>
+
+	from num7 import Num  
+	import sys  
+	sys.set_int_max_str_digits(1_000_000) #1_000_000 str digits set 
+	print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #511111111e-10008  
