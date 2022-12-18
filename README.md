@@ -287,7 +287,7 @@ A. Yes, you can. >>>
 	print((Num('1.123456789e-10_000') * Num('3.987654321e-10_000')).num2exp()) #4479957319112635269e-20018  
 	print((Num('1.123456789e-10_000') / Num('3.987654321e-10_000'))) #0.28173374584742497292307298769992856660154820877213142969420392746224704666420356 
 	
-Q. With Python 3.11 it gets an error when running this code >>>  
+Q. With Python 3.11 it gets an error when running code with digits thousands >>>  
 
 	from num7 import Num  
 	print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #511111111e-10008  
