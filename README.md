@@ -292,8 +292,8 @@ Q. With Python 3.11 it gets an error when running this code >>>
 	from num7 import Num  
 	print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #511111111e-10008  
 	
-How can fix it?
-A. Set the max string digits allowed in this way >>>
+How can i fix it?  
+A. Set the max string digits allowed in this way >>>  
 
 	from num7 import Num  
 	import sys  
