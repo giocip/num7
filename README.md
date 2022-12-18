@@ -292,6 +292,8 @@ Q. With Python 3.11 it gets an error when running this code >>>
 	from num7 import Num  
 	print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #511111111e-10008  
 	
+	ValueError: Exceeds the limit (4300) for integer string conversion: value has 10010 digits; use sys.set_int_max_str_digits() to increase the limit  
+	
 How can i fix it?  
 A. Set the max string digits allowed in this way >>>  
 
