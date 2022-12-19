@@ -15,7 +15,8 @@ for web e-commerce developing, accounting apps and general math programs include
 - To install _**`num7 package`**_ using `pip`, enter the following:
 
   ```python
-  pip install num7
+  pip  install num7 #win
+  pip3 install num7 #linux
   ```
 
 - Ok!
