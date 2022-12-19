@@ -1,10 +1,26 @@
 # SUPREME PRECISION GENERAL PURPOSE ARITHMETIC-LOGIC DECIMAL CLASS
 ## _DESCRIPTION AND DOC_
 
-Num is a lightweight floating point numeric class for arbitrary precision results with always supreme precision.
+- _**`Num`**_ is a lightweight floating point numeric class for arbitrary precision results with always supreme precision.
 
 Easy to use like school math and WITHOUT IEEE754 ISSUES or +0 AND -0 FAILURES, it can be deployed  
 for web e-commerce developing, accounting apps and general math programs included financial ones.
+
+---
+
+## Installation num7 package
+
+### Using PIP
+
+- To install _**`num7 package`**_ using `pip`, enter the following:
+
+  ```python
+  pip install num7
+  ```
+
+- Ok!
+
+---
 
 ## HOW TO USE (integer numeric strings (ex. '2.0') MUST BE SUFFIXED WITH .0):
 --- CALCULATOR MODE ---  
