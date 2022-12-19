@@ -147,6 +147,53 @@ ROUNDING AND ACCOUNTING >>>
 	TAX = round(p - p_noTAX)               #TAX 22%  
 	print(F'price={p} PAYED={pd} discount={d} COST={p_noTAX} TAX={TAX}') #price=11.19 PAYED=10.41 discount=0.78 COST=9.17 TAX=2.02  
 
+ROUNDING TYPES >>>  
+
+    from num7 import Num  
+    ''' Num floor rounding '''  
+    print('--' * 10 + ' Num floor rounding')  
+    n = Num(Num.pi)            # 3.141592654  
+    print(n, n.round_floor(2)) # 3.14  
+    n = -Num(Num.pi)           #-3.141592654  
+    print(n, n.round_floor(2)) #-3.15  
+    n = Num(Num.pi) - 3        # 0.141592654  
+    print(n, n.round_floor(2)) # 0.14  
+    n = -Num(Num.pi) + 3       #-0.141592654  
+    print(n, n.round_floor(2)) #-0.15  
+
+    print('--' * 10 + ' Num ceil rounding')  
+    ''' Num ceil rounding '''  
+    n = Num(Num.pi)           # 3.141592654  
+    print(n, n.round_ceil(2)) # 3.15  
+    n = -Num(Num.pi)          #-3.141592654  
+    print(n, n.round_ceil(2)) #-3.14  
+    n = Num(Num.pi) - 3       # 0.141592654  
+    print(n, n.round_ceil(2)) # 0.15  
+    n = -Num(Num.pi) + 3      #-0.141592654  
+    print(n, n.round_ceil(2)) #-0.14  
+
+    print('--' * 10 + ' Num standard rounding')  
+    ''' Num standard rounding '''  
+    n = Num(Num.pi)      # 3.141592654  
+    print(n, n.round())  # 3.14  
+    n = -Num(Num.pi)     #-3.141592654  
+    print(n, n.round())  #-3.14  
+    n = Num(Num.pi) - 3  # 0.141592654  
+    print(n, n.round(4)) # 0.1416  
+    n = -Num(Num.pi) + 3 #-0.141592654  
+    print(n, n.round(4)) #-0.1416  
+
+    print('--' * 10 + ' Num half to even rounding (statistic, zero symmetric)')  
+    ''' Num half even rounding '''  
+    n = Num(Num.pi).round_floor(4)      # 3.1415  
+    print(n, n.round_bank(3))           # 3.142  
+    n = -Num(Num.pi).round_floor(4)     #-3.1415  
+    print(n, n.round_bank(3))           #-3.142  
+    n = Num(Num.pi).round_floor(8) - 3  # 0.14159265  
+    print(n, n.round_bank(7))           # 0.1415926  
+    n = -Num(Num.pi).round_floor(8) + 3 #-0.14159265  
+    print(n, n.round_bank(7))           #-0.1415926  
+
 PERFORMANCE EVALUATION AND SQUARENESS >>>  
 	
 	from num7 import Num  
