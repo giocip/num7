@@ -164,6 +164,18 @@ ROUNDING AND ACCOUNTING >>>
 	TAX = round(p - p_noTAX)               #TAX 22%  
 	print(F'price={p} PAYED={pd} discount={d} COST={p_noTAX} TAX={TAX}') #price=11.19 PAYED=10.41 discount=0.78 COST=9.17 TAX=2.02  
 
+OUTPUT FORMATTING AND LOCALIZATION >>>
+
+    import locale  
+    from num7 import Num  
+    s = locale.setlocale(locale.LC_ALL, "")  
+    print('settings:', s) #settings: Italian_Italy.1252  
+    #calculating banking loan  
+    asset = Num('100_000.0'); rate = Num('6.5'); years = Num('20.0')  
+    monthly_payment = Num.f_fund_fr(asset, rate, years)  
+    print(locale.format_string("%.2f", float(monthly_payment)))   #756,30  
+    print(locale.currency(float(monthly_payment), grouping=True)) #756,30 €  
+
 ROUNDING TYPES >>>  
 
     from num7 import Num  
