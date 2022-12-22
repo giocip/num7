@@ -239,6 +239,10 @@ PERFORMANCE EVALUATION AND SQUARENESS >>>
 	print(f"b finished sec. {T2:1.6f}")  
 	R = Num.f_perf_time(str(T1), str(T2))  
 	print('PCT=>', R[0].round(), 'SCALE=>', R[1].round(), 'SQUARENESS=>', a == b) #PCT= -98.6 SCALE= -70.47 SQUARENESS=> True  
+	#stock exchange assets performance  
+        previous = Num('26.96'); now = Num('27.27')  
+        var_pct = Num.f_perf(previous, now).round()  
+        print(f'{float(var_pct):+.2f}')  
 
 SCIENTIFIC NOTATION AND HIGH PRECISION RESULTS >>>
 
