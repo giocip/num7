@@ -137,6 +137,26 @@ logic (in, not in, is, is not, <, <=, >, >=, !=, ==) and relational operators (a
 	>>> Num('-3.3321') # Num('-3.3321')  
 	>>> Num('+2.5521') + Num('-3.3321') #Num('-0.78')  
 
+On a given variable the following 4 arithmetic methods are allowed:
+
+	    # variable arithmetics
+    from num7 import Num
+
+    a = Num('10.25');
+    print(a)       #10.25
+
+    a.inc()        #increment (default) by one  
+    print(a)       #11.25  
+
+    a.dec(2)       #decrement (optional) 2 units  
+    print(a)       #9.25
+
+    a.incmul()     #multiply (default) 10 times  
+    print(a)       #92.5
+
+    a.decdiv(100)  #x100 (optional) division  
+    print(a)       #0.925
+
 # Advanced logic programming snippet
 
 LOOP EXAMPLE >>>  
