@@ -137,7 +137,7 @@ logic (in, not in, is, is not, <, <=, >, >=, !=, ==) and relational operators (a
 	>>> Num('-3.3321') # Num('-3.3321')  
 	>>> Num('+2.5521') + Num('-3.3321') #Num('-0.78')  
 
-On a given variable the following 4 arithmetic methods are allowed:
+On a given variable the following 4 arithmetic methods are available:
 
     #variable arithmetics
     from num7 import Num
@@ -156,6 +156,9 @@ On a given variable the following 4 arithmetic methods are allowed:
 
     a.decdiv(100)  #x100 (optional) division  
     print(a)       #0.925
+    
+    a.clear()      #a variable set to zero  
+    print(a)       #0.0    
 
 # Advanced logic programming snippet
 
