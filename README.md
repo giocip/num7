@@ -139,7 +139,7 @@ logic (in, not in, is, is not, <, <=, >, >=, !=, ==) and relational operators (a
 
 On a given variable the following 4 arithmetic methods are allowed:
 
-	    # variable arithmetics
+    #variable arithmetics
     from num7 import Num
 
     a = Num('10.25');
