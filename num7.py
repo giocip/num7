@@ -375,7 +375,7 @@ class Num:
     
     ''' square root method => used by sqrt() '''
     def sqr(n, d = 80):
-        ''' sqr(n, d = 80) function runs on python3 trying to be more human style
+        ''' sqr(n, d = 80) method runs on python3 trying to be more human style
             and so overcoming sqrt() integer arithmetic limits. (math library function)
         '''                                       
         d = abs(int(d))
@@ -421,6 +421,8 @@ class Num:
                 return Num('0.' + ((shift-r1_len)*'0' + r1)[0:d])
             elif n1 == '0':
                 root = str(Num.sqr(int(n0 + d * '00'), 0))
+                if not d:
+                    return Num(root[0:L_rx] + '.0')    
                 return Num(root[0:L_rx] + '.' + root[L_rx:])
             else:
                 if L_n1 % 2: #odd (dispari)
@@ -523,7 +525,7 @@ class Num:
     def add(a, b) -> 'Num':
         return Num(a) + Num(b)
         
-    ''' (+) overloading binary plus operator -used by built-in function sum() '''
+    ''' (+) overloading binary plus operator -used by built-in method sum() '''
     def __add__(self, sob): 
         if type(sob) == int or Num.is_numstr(sob):
             sob = Num(sob)
@@ -557,7 +559,7 @@ class Num:
         sre=Num(xt[0:-xt_D] + '.' + xt[-xt_D:])
         return sre #Constructor
     
-    ''' increment variable adding function -object modify by self reference '''
+    ''' increment variable adding method -object modify by self reference '''
     def inc(self, sob = 1):
         telf = self + sob
         self.d    = telf.d
@@ -567,9 +569,9 @@ class Num:
         self.n2   = telf.n2 
         self.L_n0 = telf.L_n0
         self.L_n1 = telf.L_n1         
-        return None
+        return self
     
-    ''' increment variable multiplying function -object modify by self reference '''
+    ''' increment variable multiplying method -object modify by self reference '''
     def incmul(self, sob = 10):
         telf = self * sob
         self.d    = telf.d
@@ -579,9 +581,9 @@ class Num:
         self.n2   = telf.n2 
         self.L_n0 = telf.L_n0
         self.L_n1 = telf.L_n1         
-        return None
+        return self
     
-    ''' decrement variable subtracting function -object modify by self reference '''
+    ''' decrement variable subtracting method -object modify by self reference '''
     def dec(self, sob = 1):
         telf = self - sob
         self.d    = telf.d
@@ -591,9 +593,9 @@ class Num:
         self.n2   = telf.n2 
         self.L_n0 = telf.L_n0
         self.L_n1 = telf.L_n1         
-        return None
+        return self
     
-    ''' decrement variable dividing function -object modify by self reference '''
+    ''' decrement variable dividing method -object modify by self reference '''
     def decdiv(self, sob = 10):
         telf = self / sob
         self.d    = telf.d
@@ -603,7 +605,7 @@ class Num:
         self.n2   = telf.n2 
         self.L_n0 = telf.L_n0
         self.L_n1 = telf.L_n1         
-        return None
+        return self
     
     ''' clear variable '''
     def clear(self):
@@ -615,9 +617,9 @@ class Num:
         self.n2   = ''
         self.L_n0 = 1
         self.L_n1 = 1         
-        return None
+        return self
         
-    ''' (+) swap operands binary plus operator -mandatory by built-in function sum() '''
+    ''' (+) swap operands binary plus operator -mandatory by built-in method sum() '''
     __radd__ = __add__ 
     
     ''' (-) calculator subtract method '''
@@ -774,13 +776,13 @@ class Num:
         R = Num(self).__mod__(Num(sob))
         return Q, R
 
-    ''' (divmod built-in function) return a tuple (self // sob, self % sob) '''
+    ''' (divmod built-in method) return a tuple (self // sob, self % sob) '''
     def __divmod__(self, sob):    
         Q = (self).__floordiv__((sob))
         R = (self).__mod__((sob))
         return Q, R
 
-    ''' (divmod built-in function) swap operands '''
+    ''' (divmod built-in method) swap operands '''
     def __rdivmod__(self, sob): 
         return Num(sob).__divmod__(self)
     
@@ -832,7 +834,7 @@ class Num:
     def __le__(self, sob): #<=
         return False if self > sob else True  #
     
-    ''' overloading built-in function len() '''
+    ''' overloading built-in method len() '''
     def __len__(self):
         return len(self.n)
     
@@ -848,11 +850,11 @@ class Num:
     def __pos__(self): #
         return Num(self.n)
     
-    ''' (built-in int function) Num to int (truncation) - great loss precision! '''
+    ''' (built-in int method) Num to int (truncation) - great loss precision! '''
     def __int__(self): #
         return int(self.n2 + self.n0) 
 
-    ''' (truncation) Num to int function - great loss precision! '''
+    ''' (truncation) Num to int method - great loss precision! '''
     def int(self) -> int: #
         return self.__int__()
 
@@ -1016,7 +1018,29 @@ class Num:
                 >>> Num('+2.5521') # Num('2.5521')
                 >>> Num('-3.3321') # Num('-3.3321')
                 >>> Num('+2.5521') + Num('-3.3321') # Num('-0.78')
-                
+
+            #variable arithmetics -On a given variable, the following arithmetic methods are available:
+                from num7 import Num
+                a = Num('10.25');
+                print(a)       #10.25
+                a.inc()        #increment (default) by one
+                print(a)       #11.25
+                a.dec(2)       #decrement (optional) 2 units
+                print(a)       #9.25
+                a.incmul()     #multiply (default) 10 times
+                print(a)       #92.5
+                a.decdiv(100)  #x100 (optional) division
+                print(a)       #0.925
+                a.clear()      #a variable set to zero
+                print(a)       #0.0
+
+            #EVEN ODD numbering methods:
+                from num7 import Num
+                a = Num(6); b = Num(3); c = Num('3.14')  
+                print(a, 'INTEGER =>', a.is_numint(), 'EVEN =>', a.is_numeven())  
+                print(b, 'INTEGER =>', b.is_numint(), 'ODD  =>', b.is_numodd())  
+                print(c, 'FLOAT  =>', c.is_numfloat())
+
         ######################## advanced logic programming snippet ########################
     ### LOOP EXAMPLE >>>        
 from num7 import Num, Num as calc
@@ -1040,6 +1064,63 @@ d = round(p - pd)              #DISCOUNT
 p_noTAX = round(p.f_price_spinoff(22)) #ITEM COST WITHOUT TAX 22%
 TAX = round(p - p_noTAX)               #TAX 22%
 print(F'price={p} PAYED={pd} discount={d} COST={p_noTAX} TAX={TAX}') #price=11.19 PAYED=10.41 discount=0.78 COST=9.17 TAX=2.02
+
+    ### OUTPUT FORMATTING AND LOCALIZATION >>>
+import locale
+from num7 import Num
+s = locale.setlocale(locale.LC_ALL, "")
+print('settings:', s) #settings: Italian_Italy.1252
+#calculating banking loan
+asset = Num('100_000.0'); rate = Num('6.5'); years = Num('20.0')
+monthly_payment = Num.f_fund_fr(asset, rate, years)
+print(locale.format_string("%.2f", float(monthly_payment)))   #756,30
+print(locale.currency(float(monthly_payment), grouping=True)) #756,30 €
+
+    ### ROUNDING TYPES >>>
+from num7 import Num  
+### Num floor rounding ###
+print('--' * 10 + ' Num floor rounding')  
+n = Num(Num.pi)            # 3.141592654  
+print(n, n.round_floor(2)) # 3.14  
+n = -Num(Num.pi)           #-3.141592654  
+print(n, n.round_floor(2)) #-3.15  
+n = Num(Num.pi) - 3        # 0.141592654  
+print(n, n.round_floor(2)) # 0.14  
+n = -Num(Num.pi) + 3       #-0.141592654  
+print(n, n.round_floor(2)) #-0.15  
+
+print('--' * 10 + ' Num ceil rounding')  
+### Num ceil rounding ###
+n = Num(Num.pi)           # 3.141592654  
+print(n, n.round_ceil(2)) # 3.15  
+n = -Num(Num.pi)          #-3.141592654  
+print(n, n.round_ceil(2)) #-3.14  
+n = Num(Num.pi) - 3       # 0.141592654  
+print(n, n.round_ceil(2)) # 0.15  
+n = -Num(Num.pi) + 3      #-0.141592654  
+print(n, n.round_ceil(2)) #-0.14  
+
+print('--' * 10 + ' Num standard rounding')  
+### Num standard rounding ###
+n = Num(Num.pi)      # 3.141592654  
+print(n, n.round())  # 3.14  
+n = -Num(Num.pi)     #-3.141592654  
+print(n, n.round())  #-3.14  
+n = Num(Num.pi) - 3  # 0.141592654  
+print(n, n.round(4)) # 0.1416  
+n = -Num(Num.pi) + 3 #-0.141592654  
+print(n, n.round(4)) #-0.1416  
+
+print('--' * 10 + ' Num half to even rounding (statistic, zero symmetric)')  
+### Num half even rounding ###
+n = Num(Num.pi).round_floor(4)      # 3.1415  
+print(n, n.round_bank(3))           # 3.142  
+n = -Num(Num.pi).round_floor(4)     #-3.1415  
+print(n, n.round_bank(3))           #-3.142  
+n = Num(Num.pi).round_floor(8) - 3  # 0.14159265  
+print(n, n.round_bank(7))           # 0.1415926  
+n = -Num(Num.pi).round_floor(8) + 3 #-0.14159265  
+print(n, n.round_bank(7))           #-0.1415926  
 
     ### PERFORMANCE EVALUATION AND SQUARENESS >>>
 #from sys import set_int_max_str_digits #PYTHON 3.11
@@ -1127,7 +1208,7 @@ A. Using Num class >>>
 from num7 import Num, Num as calc
 print(Num('0.1') + Num('0.2'))  #calc.add('0.1', '0.2') #0.3
 
-Q. I'll get an error when i usually type: 
+Q. I'll get an arror when i usually type: 
        >>>  Num(0.1) #ValueError: Num.__init__ => float, type not valid: 0.1   
    What is wrong?
 A. You must use quotes or string conversion with built-in str function:
@@ -1150,7 +1231,7 @@ print(T, '=> OK.')                 #0.300000000000000016653345369377348106354475
 Q. I have two float variables in my code:
         >>> a = 0.1; b = 0.2
     How can i convert them in Num type?
-A. With Num.float2num method (or directly with str() built-in function) >>>
+A. With Num.float2num method (or directly with str() bult-in function) >>>
 from num7 import Num, Num as calc
 a = 0.1; b = 0.2 #
 an= Num.float2num(a); bn= Num.float2num(b) #an= Num(str(a)); bn= Num(str(b))   
@@ -1163,5 +1244,20 @@ print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #5111
 print((Num('1.123456789e-10_000') - Num('3.987654321e-10_000')).num2exp()) #-2864197532e-10009
 print((Num('1.123456789e-10_000') * Num('3.987654321e-10_000')).num2exp()) #4479957319112635269e-20018
 print((Num('1.123456789e-10_000') / Num('3.987654321e-10_000'))) #0.28173374584742497292307298769992856660154820877213142969420392746224704666420356
+
+Q. With Python 3.11 it gets an error when running this code >>>
+
+from num7 import Num  
+print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #511111111e-10008  
+
+ValueError: Exceeds the limit (4300) for integer string conversion: value has 10010 digits; use sys.set_int_max_str_digits() to increase the limit  
+
+How can i fix it?
+A. Set the max string digits allowed in this way >>>
+
+from num7 import Num  
+import sys  
+sys.set_int_max_str_digits(1_000_000) #1_000_000 str digits set 
+print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #511111111e-10008  
 
 '''
