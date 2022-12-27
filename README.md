@@ -157,10 +157,10 @@ On a given variable the following arithmetic methods are available:
 EVEN ODD numbering methods:
 
     from num7 import Num
-    a = Num(6); b = Num(3); c = Num('3.14')  
-    print(a, 'INTEGER =>', a.is_numint(), 'EVEN =>', a.is_numeven())  
-    print(b, 'INTEGER =>', b.is_numint(), 'ODD  =>', b.is_numodd())  
-    print(c, 'FLOAT  =>', c.is_numfloat())  
+    a = Num(6); b = Num(3); c = Num('3.14')   
+    print(a, 'INTEGER =>', a.is_numint(), 'EVEN =>', a.is_numeven()) #6.0 INTEGER => True EVEN => True     
+    print(b, 'INTEGER =>', b.is_numint(), 'ODD  =>', b.is_numodd())  #3.0 INTEGER => True ODD  => True  
+    print(c, 'FLOAT  =>', c.is_numfloat())  			     #3.14 FLOAT  => True  
 
 # Advanced logic programming snippet
 
