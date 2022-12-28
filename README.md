@@ -406,16 +406,3 @@ A. Set the max string digits allowed in this way >>>
 	import sys  
 	sys.set_int_max_str_digits(1_000_000) #1_000_000 str digits set 
 	print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #511111111e-10008  
-
-Q. I get 'perfect square' result with this Num code:  
-
-	from num7 import Num  
-	#very large number 
-	print(Num(10**160 + 1).sqrt().is_numint()) #True 
-
-A. You can fix it setting sqrt decimal parameter as following:
-
-	from num7 import Num 
-	#very large number 
-	print(Num(10**160 + 1).sqrt(160).is_numint()) #False 
-
