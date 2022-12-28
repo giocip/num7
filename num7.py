@@ -371,7 +371,10 @@ class Num:
     
     ''' calculator square root method '''
     def sqrt(n, d = 80) -> 'Num':
-        return Num.sqr(Num(n), d)
+        n = Num(n)
+        if n.L_n0 > 80 and d == 80:
+            return Num.sqr(n, n.L_n0)
+        return Num.sqr(n, d)
     
     ''' square root method => used by sqrt() '''
     def sqr(n, d = 80):
@@ -507,7 +510,7 @@ class Num:
         if self.n0 == '0' and self.n1 == '0': # zero get not any sign == BE CAREFUL!
             if self.n2 == '-' or n[0] == '+':
                 raise ValueError(F"Num.__init__ => zero can not be signed: {n}")    
-        self.d = d #precision
+        self.d = d if d > self.L_n1 else self.L_n1 #precision
 
     ''' not unary operator '''
     def __bool__(self): #
