@@ -368,6 +368,40 @@ class Num:
     ''' calculator max method '''
     def max(L: list) -> 'Num': 
         return max([Num(i) for i in L])
+
+    ''' calculator ith root method '''
+    def root_i(n, i = 3, d = 80):
+        if not i:
+            return('1.0')
+        n = Num(n, d); i = Num(i)
+        if i.is_numeven() and n.n2:
+            raise ValueError(F"Num.root_i => Negative number: {n}")
+        if i < 0:
+            n = 1/n
+            i = -i
+        i = int(i)
+        sign = '-' if n < 0 else ''
+        n = abs(Num(n))
+        n = n.str()
+        n0, _, n1 = n.partition('.')
+        n = n0 + n1    
+        W = i * d - len(n1) #set precision    
+        n = n + W*'0' if W >= 0 else n[:W] #integer conversion
+        z = n = int(n)
+        s = z + 1
+        while z<s: #Newton's method
+            s = z
+            try:
+                t = (i-1)*s + n//s**(i-1)
+            except:
+                raise ValueError(F"Num.root_i => d parameter too low: {d}")
+            z = t//i
+        s = str(s)   
+        if d: #floating point conversion with clearing zeros        
+            s = '0' * (1 + d - len(s)) + s
+            r = (s[:-d] + '.' +s[-d:]).rstrip('0') 
+            s = r + '0' if r[-1] == '.' else r
+        return Num(sign + s)
     
     ''' calculator square root method '''
     def sqrt(n, d = 80) -> 'Num':
