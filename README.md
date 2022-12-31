@@ -38,6 +38,7 @@ for web e-commerce developing, accounting apps and general math programs include
 	FLOAT DIV AND REM: >>> calc.divmod('5.2', '3.1')  #(Num('1.0'), Num('2.1')) => tuple  
 	POWER:             >>> calc.pow('-5.3', '2.0')    #Num('28.09')  
 	SQRT:              >>> calc.sqrt('2.0')           #Num('1.41421356237309504880168872420969807856967187537694807317667973799073247846210703')  
+	ROOT_ith           >>> calc.root_i('1.860867', 3) #Num('1.23')  
 	ROUND:             >>> calc.sqrt('2.0').round(2)  #Num('1.41')  
 	ABSOLUTE VALUE     >>> calc.abs('-3.0')           #Num('3.0')  
 	SUM:               >>> cart = ['19.32','18.37','15.13']; calc.sum(*cart)          #Num('52.82')  
