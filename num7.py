@@ -401,7 +401,8 @@ class Num:
             s = '0' * (1 + d - len(s)) + s
             r = (s[:-d] + '.' +s[-d:]).rstrip('0') 
             s = r + '0' if r[-1] == '.' else r
-        return Num(sign + s)
+            return Num(sign + s)
+        return Num(sign + s + '.0') #integer conversion
     
     ''' calculator square root method '''
     def sqrt(n, d = 80) -> 'Num':
