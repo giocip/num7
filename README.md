@@ -138,11 +138,60 @@ logic (in, not in, is, is not, <, <=, >, >=, !=, ==) and relational operators (a
 	>>> Num('-3.3321') # Num('-3.3321')  
 	>>> Num('+2.5521') + Num('-3.3321') #Num('-0.78')  
 
+bitwise operators code:
+
+    from num7 import Num  
+    print('--- (&) AND ---')  
+    op1 = Num('3.0')  
+    op2 = 5  
+    print(f'{int(op1):08b}', op1) #00000011 3.0  
+    op1 &= op2                    #AND  
+    print(f'{op2:08b}', op2)      #00000101 5  
+    print(f'{int(op1):08b}', op1) #00000001 1  
+
+    print('--- (|) OR  ---')  
+    op1 = Num('3.0')  
+    op2 = 5  
+    print(f'{int(op1):08b}', op1) #00000011 3.0  
+    op1 |= op2                    #OR  
+    print(f'{op2:08b}', op2)      #00000101 5  
+    print(f'{int(op1):08b}', op1) #00000111 7  
+
+    print('--- (^) XOR ---')  
+    op1 = Num('3.0')  
+    op2 = 5  
+    print(f'{int(op1):08b}', op1) #00000011 3.0  
+    op1 ^= op2                    #XOR  
+    print(f'{op2:08b}', op2)      #00000101 5  
+    print(f'{int(op1):08b}', op1) #00000110 6  
+
+    print('--- (<<) LEFT SHIFT -X10 MULTIPLIER ---')  
+    op1 = Num('1.0')  
+    op2 = 2  
+    print(f'{int(op1):08b}', op1) #00000001 1.0  
+    op1 <<= op2                   #LEFT SHIFT -X10 MULTIPLIER  
+    print(f'{op2:08b}', op2)      #00000010 2  
+    print(f'{int(op1):08b}', op1) #01100100 100.0  
+
+    print('--- (>>) RIGHT SHIFT -X10 DIVIDER ---')  
+    op1 = Num('250.0')  
+    op2 = 1  
+    print(f'{int(op1):08b}', op1) #11111010 250.0  
+    op1 >>= op2                   #RIGHT SHIFT -X10 DIVIDER  
+    print(f'{op2:08b}', op2)      #00000001 1  
+    print(f'{int(op1):08b}', op1) #00011001 25.0  
+
+    print('--- (~) NOT ---')  
+    op1 = Num('10.0')  
+    print(f'{int(op1):08b}', op1) #00001010 10.0  
+    op2 = ~op1                    #(~) NOT  
+    print(f'{int(op2):08b}', op2) #00000101 5.0  
+
 On a given variable the following arithmetic methods are available:
 
-    #variable arithmetics
-    from num7 import Num
-    a = Num('10.25');
+    #variable arithmetics  
+    from num7 import Num  
+    a = Num('10.25')  
     print(a)       #10.25  
     a.inc()        #increment (default) by one  
     print(a)       #11.25   
@@ -157,10 +206,10 @@ On a given variable the following arithmetic methods are available:
 
 EVEN ODD numbering methods:
 
-    from num7 import Num
-    a = Num(6); b = Num(3); c = Num('3.14')   
-    print(a, 'INTEGER =>', a.is_numint(), 'EVEN =>', a.is_numeven()) #6.0 INTEGER => True EVEN => True     
-    print(b, 'INTEGER =>', b.is_numint(), 'ODD  =>', b.is_numodd())  #3.0 INTEGER => True ODD  => True  
+    from num7 import Num  
+    a = Num(6); b = Num(3); c = Num('3.14')  
+    print(a, 'INTEGER =>', a.is_numint(), 'EVEN =>', a.is_numeven()) #6.0 INTEGER => True EVEN => True  
+    print(b, 'INTEGER =>', b.is_numint(), 'ODD  =>', b.is_numodd())  #3.0 INTEGER => True ODD  => True 
     print(c, 'FLOAT  =>', c.is_numfloat())                           #3.14 FLOAT  => True  
 
 # Advanced logic programming snippet
