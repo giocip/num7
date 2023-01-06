@@ -403,7 +403,7 @@ class Num:
             s = r + '0' if r[-1] == '.' else r
             return Num(sign + s)
         return Num(sign + s + '.0') #integer conversion
-    
+
     ''' calculator square root method '''
     def sqrt(n, d = 80) -> 'Num':
         n = Num(n)
@@ -547,9 +547,66 @@ class Num:
                 raise ValueError(F"Num.__init__ => zero can not be signed: {n}")    
         self.d = d if d > self.L_n1 else self.L_n1 #precision
 
-    ''' not unary operator '''
+    ''' not logic unary operator '''
     def __bool__(self): #
         return False if self.n == '0.0' else True
+
+    ''' (~) not unary bitwise operator '''
+    def __invert__(self): #
+        if not Num.is_numint(self) or self.n2: #only positive integer
+            raise TypeError(F"Num.__invert__ => only positive integer allowed: {self}")        
+        t = ''
+        for bit in bin(int(self.n0))[2:]:
+            t += '0' if bit == '1' else '1'
+        return Num(int(t, 2))
+    
+    ''' (&) overloading binary & operator (Bitwise AND) '''
+    def __and__(self, sob):
+        if not Num.is_numint(self) or self.n2: #only positive integer
+            raise TypeError(F"Num.__and__ => only positive integer allowed: {self}")        
+        if type(sob) == int or Num.is_numstr(sob):
+            sob = Num(sob)
+        if not Num.is_numint(sob) and sob >= 0: #only integer
+            raise TypeError(F"Num.__and__ => only positive integer allowed: {sob}")              
+        if type(sob) != Num:
+            raise TypeError(F"Num.__and__ => type not valid: {sob}")        
+        return int(self.n0) & int(sob.n0)
+
+    ''' (&) swap operands binary AND bitwise operator '''
+    def __rand__(self, sob): 
+        return Num(sob).__and__(self)
+
+    ''' (|) overloading binary | operator (Bitwise OR) '''
+    def __or__(self, sob):
+        if not Num.is_numint(self) or self.n2: #only positive integer
+            raise TypeError(F"Num.__or__ => only positive integer allowed: {self}")       
+        if type(sob) == int or Num.is_numstr(sob):
+            sob = Num(sob)
+        if not Num.is_numint(sob):   #only integer
+            raise TypeError(F"Num.__or__ => only positive integer allowed: {self}")            
+        if type(sob) != Num:
+            raise TypeError(F"Num.__or__ => type not valid: {sob}")        
+        return int(self.n0) | int(sob.n0)
+
+    ''' (|) swap operands binary OR bitwise operator '''
+    def __ror__(self, sob): 
+        return Num(sob).__or__(self)
+
+    ''' (^) overloading binary ^ operator (Bitwise XOR) '''
+    def __xor__(self, sob):
+        if not Num.is_numint(self) or self.n2: #only positive integer
+            raise TypeError(F"Num.__xor__ => only positive integer allowed: {self}")        
+        if type(sob) == int or Num.is_numstr(sob):
+            sob = Num(sob)
+        if not Num.is_numint(sob):   #only integer
+            raise TypeError(F"Num.__xor__ => only positive integer allowed: {self}")              
+        if type(sob) != Num:
+            raise TypeError(F"Num.__xor__ => type not valid: {sob}")        
+        return int(self.n0) ^ int(sob.n0)
+
+    ''' (^) swap operands binary XOR bitwise operator '''
+    def __rxor__(self, sob): 
+        return Num(sob).__xor__(self)
     
     ''' (built-in abs function) Return the absolute value of a number '''
     def __abs__(self):        
@@ -729,7 +786,7 @@ class Num:
     
     ''' (<<) left shift binary operator -multiplying for 10 powers '''
     def __lshift__(self, sob):
-        return self * 10**Num(sob)
+        return self * 10**int(Num(sob)) #
     
     ''' (<<) swap operands left shift binary operator '''
     def __rlshift__(self, sob):
@@ -829,7 +886,7 @@ class Num:
         sob = Num(sob)
         t = sob + self.L_n1
         self.d = t if t > self.d else self.d
-        return self / 10**sob
+        return self / 10**int(sob) #
     
     ''' (>>) swap operands right shift binary operator '''
     def __rrshift__(self, sob):
@@ -955,26 +1012,26 @@ class Num:
         --- CALCULATOR MODE ---           
                            >>> from num7 import Num, Num as calc
                            
-        ADDITION:          >>> calc.add('-5.3', '2.1')    # Num('-3.2')
-        SUBTRACTION:       >>> calc.sub('-5.3', '2.1')    # Num('-7.4')
-        MULTIPLICATION:    >>> calc.mul('-5.3', '2.1')    # Num('-11.13')
-        DIVISION:          >>> calc.div('-5.3', '2.1')    # Num('-2.52380952380952380952380952380952380952380952380952380952380952380952380952380952')
-        M+:                >>> M = calc('0.0'); M.inc('3.0'); M.inc('3.3'); M.inc('3.7'); print(M) # 10.0
-        M-:                >>>                  M.dec('5.0'); M.dec('3.3'); M.dec('1.5'); print(M) # 0.2
+        ADDITION:          >>> calc.add('-5.3', '2.1')    #Num('-3.2')
+        SUBTRACTION:       >>> calc.sub('-5.3', '2.1')    #Num('-7.4')
+        MULTIPLICATION:    >>> calc.mul('-5.3', '2.1')    #Num('-11.13')
+        DIVISION:          >>> calc.div('-5.3', '2.1')    #Num('-2.52380952380952380952380952380952380952380952380952380952380952380952380952380952')
+        M+:                >>> M = calc('0.0'); M.inc('3.0'); M.inc('3.3'); M.inc('3.7'); print(M) #10.0
+        M-:                >>>                  M.dec('5.0'); M.dec('3.3'); M.dec('1.5'); print(M) #0.2
         MC:                >>> M.clear(); print(M) # 0.0
-        INT   DIV AND REM: >>> calc.divmod('5.0', '3.0')  # (Num('1.0'), Num('2.0')) => tuple 
-        FLOAT DIV AND REM: >>> calc.divmod('5.2', '3.1')  # (Num('1.0'), Num('2.1')) => tuple
-        POWER:             >>> calc.pow('-5.3', '2.0')    # Num('28.09')
-        SQRT:              >>> calc.sqrt('2.0')           # Num('1.41421356237309504880168872420969807856967187537694807317667973799073247846210703')
-        ROOT_ith           >>> calc.root_i('1.860867', 3) # Num('1.23')        
-        ROUND:             >>> calc.sqrt('2.0').round(2)  # Num('1.41')
-        ABSOLUTE VALUE     >>> calc.abs('-3.0')           # Num('3.0')
-        SUM:               >>> cart = ['19.32','18.37','15.13']; calc.sum(*cart)          # Num('52.82')
-        MEAN:              >>> cart = ['19.32','18.37','15.13']; calc.mean(*cart).round() # Num('17.61')
-        MIN:               >>> cart = ['19.32','18.37','15.13']; calc.min(cart)           # Num('15.13')
-        MAX:               >>> cart = ['19.32','18.37','15.13']; calc.max(cart)           # Num('19.32')
-        EXP:               >>> calc.mul('-5.3e1024', '2.1e1024').num2exp()                # '-1113E2046'
-        REPL:              >>> a = calc('0.1'); b = calc('0.2'); print(calc.add(a, b))    # 0.3
+        INT   DIV AND REM: >>> calc.divmod('5.0', '3.0')  #(Num('1.0'), Num('2.0')) => tuple 
+        FLOAT DIV AND REM: >>> calc.divmod('5.2', '3.1')  #(Num('1.0'), Num('2.1')) => tuple
+        POWER:             >>> calc.pow('-5.3', '2.0')    #Num('28.09')
+        SQRT:              >>> calc.sqrt('2.0')           #Num('1.41421356237309504880168872420969807856967187537694807317667973799073247846210703')
+        ROOT_ith           >>> calc.root_i('1.860867', 3) #Num('1.23')
+        ROUND:             >>> calc.sqrt('2.0').round(2)  #Num('1.41')
+        ABSOLUTE VALUE     >>> calc.abs('-3.0')           #Num('3.0')
+        SUM:               >>> cart = ['19.32','18.37','15.13']; calc.sum(*cart)          #Num('52.82')
+        MEAN:              >>> cart = ['19.32','18.37','15.13']; calc.mean(*cart).round() #Num('17.61')
+        MIN:               >>> cart = ['19.32','18.37','15.13']; calc.min(cart)           #Num('15.13')
+        MAX:               >>> cart = ['19.32','18.37','15.13']; calc.max(cart)           #Num('19.32')
+        EXP:               >>> calc.mul('-5.3e1024', '2.1e1024').num2exp()                #'-1113E2046'
+        REPL:              >>> a = calc('0.1'); b = calc('0.2'); print(calc.add(a, b))    #0.3
 
         CODING:
             >>> from num7 import Num, Num as calc
@@ -1058,27 +1115,75 @@ class Num:
                 >>> Num('-3.3321') # Num('-3.3321')
                 >>> Num('+2.5521') + Num('-3.3321') # Num('-0.78')
 
+            #bitwise operators
+from num7 import Num
+print('--- (&) AND ---')
+op1 = Num('3.0')
+op2 = 5
+print(f'{int(op1):08b}', op1) #00000011 3.0
+op1 &= op2                    #AND
+print(f'{op2:08b}', op2)      #00000101 5
+print(f'{int(op1):08b}', op1) #00000001 1
+
+print('--- (|) OR  ---')
+op1 = Num('3.0')
+op2 = 5
+print(f'{int(op1):08b}', op1) #00000011 3.0
+op1 |= op2                    #OR
+print(f'{op2:08b}', op2)      #00000101 5
+print(f'{int(op1):08b}', op1) #00000111 7
+
+print('--- (^) XOR ---')
+op1 = Num('3.0')
+op2 = 5
+print(f'{int(op1):08b}', op1) #00000011 3.0
+op1 ^= op2                    #XOR
+print(f'{op2:08b}', op2)      #00000101 5
+print(f'{int(op1):08b}', op1) #00000110 6
+
+print('--- (<<) LEFT SHIFT -X10 MULTIPLIER ---')
+op1 = Num('1.0')
+op2 = 2
+print(f'{int(op1):08b}', op1) #00000001 1.0
+op1 <<= op2                   #LEFT SHIFT -X10 MULTIPLIER
+print(f'{op2:08b}', op2)      #00000010 2
+print(f'{int(op1):08b}', op1) #01100100 100.0
+
+print('--- (>>) RIGHT SHIFT -X10 DIVIDER ---')
+op1 = Num('250.0')
+op2 = 1
+print(f'{int(op1):08b}', op1) #11111010 250.0
+op1 >>= op2                   #RIGHT SHIFT -X10 DIVIDER
+print(f'{op2:08b}', op2)      #00000001 1
+print(f'{int(op1):08b}', op1) #00011001 25.0
+
+print('--- (~) NOT ---')
+op1 = Num('10.0')
+print(f'{int(op1):08b}', op1) #00001010 10.0
+op2 = ~op1                    #(~) NOT
+print(f'{int(op2):08b}', op2) #00000101 5.0
+
             #variable arithmetics -On a given variable, the following arithmetic methods are available:
-                from num7 import Num
-                a = Num('10.25');
-                print(a)       #10.25
-                a.inc()        #increment (default) by one
-                print(a)       #11.25
-                a.dec(2)       #decrement (optional) 2 units
-                print(a)       #9.25
-                a.incmul()     #multiply (default) 10 times
-                print(a)       #92.5
-                a.decdiv(100)  #x100 (optional) division
-                print(a)       #0.925
-                a.clear()      #a variable set to zero
-                print(a)       #0.0
+from num7 import Num
+a = Num('10.25');
+print(a)       #10.25
+a.inc()        #increment (default) by one
+print(a)       #11.25
+a.dec(2)       #decrement (optional) 2 units
+print(a)       #9.25
+a.incmul()     #multiply (default) 10 times
+print(a)       #92.5
+a.decdiv(100)  #x100 (optional) division
+print(a)       #0.925
+a.clear()      #a variable set to zero
+print(a)       #0.0
 
             #EVEN ODD numbering methods:
-                from num7 import Num
-                a = Num(6); b = Num(3); c = Num('3.14')  
-                print(a, 'INTEGER =>', a.is_numint(), 'EVEN =>', a.is_numeven())  
-                print(b, 'INTEGER =>', b.is_numint(), 'ODD  =>', b.is_numodd())  
-                print(c, 'FLOAT  =>', c.is_numfloat())
+from num7 import Num
+a = Num(6); b = Num(3); c = Num('3.14')  
+print(a, 'INTEGER =>', a.is_numint(), 'EVEN =>', a.is_numeven()) #6.0 INTEGER => True EVEN => True 
+print(b, 'INTEGER =>', b.is_numint(), 'ODD  =>', b.is_numodd())  #3.0 INTEGER => True ODD  => True  
+print(c, 'FLOAT  =>', c.is_numfloat())                           #3.14 FLOAT  => True
 
         ######################## advanced logic programming snippet ########################
     ### LOOP EXAMPLE >>>        
@@ -1178,8 +1283,8 @@ b = ('-1.123456789') >> Num('100.0') #calculating division 10**100...
 toc = perf_counter() # End Time
 T2 = toc - tic
 print(f"b finished sec. {T2:1.6f}")
-R = Num.f_perf_time(str(T1), str(T2))                                         # a finished sec. 0.000034  b finished sec. 0.002430 
-print('PCT=>', R[0].round(), 'SCALE=>', R[1].round(), 'SQUARENESS=>', a == b) # PCT= -98.6 SCALE= -70.47 SQUARENESS=> True
+R = Num.f_perf_time(str(T1), str(T2))                                         # a finished sec. 0.000029  b finished sec. 0.000125 
+print('PCT=>', R[0].round(), 'SCALE=>', R[1].round(), 'SQUARENESS=>', a == b) # PCT=> -76.74 SCALE=> -3.3 SQUARENESS=> True
 
     ### SCIENTIFIC NOTATION AND HIGH PRECISION RESULTS >>>
 from num7 import Num, Num as calc
