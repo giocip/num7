@@ -10,62 +10,62 @@ class Num:
     
     ''' class METHODS list  ''' 
     
-    ''' french financing month mortgage (high precision) '''
     def f_fund_fr(self, i, y) -> 'Num':
+        ''' french financing month mortgage (high precision) '''
         i = Num(i) / 100 
         return (self*i) / (1-(1+i)**-y) / 12 #
     
-    ''' french financing month mortgage (high speed) '''
     def f_fund_IEEE754(S, i, y) -> float:
+        ''' french financing month mortgage (high speed) '''
         i = i / 100 
         return (S*i) / (1-(1+i)**-y) / 12
     
-    ''' percentage performance value (direct ratio) '''
     def f_perf(self, sob) -> 'Num':
+        ''' percentage performance value (direct ratio) '''
         sob = Num(sob) #allowing float string as: '2.3'
         return (-self + sob) / self * 100
     
-    ''' percentage and relative magnitude order time performance value (inverse ratio) '''
     def f_perf_time(self, sob) -> tuple:
+        ''' percentage and relative magnitude order time performance value (inverse ratio) '''
         sob = Num(sob) #allowing float string as: '2.3'
         self= Num(self)
         R = ((self - sob) / sob * 100)
         return R, -sob/self+1 if sob>self else self/sob-1 # tuple
     
-    ''' add or sub a percentage value to a base price ''' 
     def f_price_over(self, t = 22) -> 'Num':
+        ''' add or sub a percentage value to a base price ''' 
         t = Num(t) #allowing float string as: '2.3'
         self += self * t / 100
         return self
     
-    ''' spin off percentage tax value from a base price ''' 
     def f_price_spinoff(self, t = 22) -> 'Num':
+        ''' spin off percentage tax value from a base price ''' 
         t = Num(t) #allowing float string as: '2.3'
         return self / ((100+t) / 100)
     
-    ''' read a number strings column from disk ''' 
     def f_fileread(filename = 'nums.txt') -> list:
+        ''' read a number strings column from disk ''' 
         FILE = [ls for line in open(filename, 'r') if (ls:=line.strip())]
         cart = [Num(str(N)) if '.' in N else Num(str(N)+'.0') for N in FILE]
-        return cart #list
+        return cart 
     
-    ''' write a number strings column from disk ''' 
-    def f_filewrite(L, filename = 'nums.txt') -> None:
+    def f_filewrite(L: list, filename = 'nums.txt') -> None:
+        ''' write a number strings column on disk ''' 
         lines = [f'{str(i)}\n' for i in L]
         with open(filename, 'a') as FILE:
             FILE.writelines(lines)
         return None
 
-    ''' return Num string '''
     def str(self) -> str:
+        ''' return Num string '''
         return self.__str__()
 
-    ''' return Num representation string '''
     def repr(self) -> str:
+        ''' return Num representation string '''
         return self.__repr__()
     
-    ''' is_numstr to check numeric string validation '''
     def is_numstr(n) -> bool:
+        ''' is_numstr to check numeric string validation '''
         if type(n) != str:
             return False      
         if 'E' in n.upper():            
@@ -95,36 +95,36 @@ class Num:
                 return False 
         return True   
 
-    ''' is_numint checks if integer num '''
     def is_numint(self) -> bool:
+        ''' is_numint checks if integer num '''
         if self.n1 == '0':
             return True
         return False
 
-    ''' is_numfloat checks if floating point num '''
     def is_numfloat(self) -> bool:
+        ''' is_numfloat checks if floating point num '''
         if self.n1 != '0':
             return True
         return False
 
-    ''' is_numeven checks if even num '''
     def is_numeven(self) -> bool:
+        ''' is_numeven checks if even num '''
         if self.is_numint():
             if self % 2:
                 return False
             return True
         raise ValueError(F"Num.is_numeven => Num, must be integer value: {self}")
     
-    ''' is_numodd checks if odd num '''
     def is_numodd(self) -> bool:
+        ''' is_numodd checks if odd num '''
         if self.is_numint():
             if self % 2:
                 return True
             return False
         raise ValueError(F"Num.is_numodd => Num, must be integer value: {self}")
     
-    ''' convert a scientific notation number to string numeric '''
     def exp2num(s) -> str:
+        ''' convert a scientific notation number to string numeric '''
         if type(s) != str:
             raise ValueError(F"Num.exp2num => type not valid: {s}")
         s = s.strip().upper()
@@ -195,20 +195,20 @@ class Num:
             return bf[0][0:EXP] + '.' + bf[0][EXP:] + bf[1]  #'-112.9e-2'
         return '-0.' + (-DOT)*'0' + bf[0][1:] + bf[1] #'-112.9e-3'
 
-    ''' float to IEEE754 conversion '''
-    def ieee754(self) -> str: #
+    def ieee754(self) -> str: 
+        ''' float to IEEE754 conversion '''
         return f'{float(self):.80f}'.rstrip('0')
 
-    ''' float to Num conversion '''
     def float2num(f) -> 'Num':
+        ''' float to Num conversion '''
         return Num(str(f)) 
 
-    ''' float to Num list conversion '''
     def float2num_list(L: list) -> list:
+        ''' float to Num list conversion '''
         return [Num((i) if type(i)==int else str(i)) for i in L]
     
-    ''' convert a Num object to scientific notation string '''
     def num2exp(ob) -> str:
+        ''' convert a Num object to scientific notation string '''
         if type(ob) != Num:
             raise ValueError(F"Num.num2exp => type not valid: {ob}")
         if ob.n1 == '0': #EXP >= 0
@@ -238,22 +238,22 @@ class Num:
             return ob.n2 + CHECK        
         return ob.n
     
-    ''' Num integer truncation '''
     def numint(self) -> 'Num':
+        ''' Num integer truncation '''
         return Num(self.n2 + self.n0 + '.0')
     
-    ''' Num floating point truncation '''
     def trunc(self, d = 0) -> 'Num':
+        ''' Num floating point truncation '''
         m = Num(10)**d
-        return Num(int(self * m)) / m
+        return Num(int(self * m), d) / m
 
-    ''' Num floor rounding '''
     def round_floor(self, d = 0) -> 'Num': #relative value (real number R)
+        ''' Num floor rounding '''
         ''' relative round down: 0.12 => 0.1 -0.12 => -0.2 '''
         if self >= 0: #positives and zero 
             return self.trunc(d)
         #negatives
-        e = Num('1.0') / Num('10.0')**d
+        e = Num('1.0', d) / Num('10.0')**d
         if d >= 0:
             t = self.trunc(d) - e; t2 = self - e
             return self if t == t2 else t            
@@ -262,13 +262,14 @@ class Num:
         t = self.trunc(d) - e; t2 = self - e
         return self if t == t2 else t            
     
-    ''' Num half up rounding '''
     def round(self, d = 2) -> 'Num':
+        ''' Num half up rounding '''
         ''' COMMON STANDARD -relative round_half_ceil: 0.15 => 0.2 -0.15 => -0.1 '''
-        return (self + Num('0.5') * Num('10.0')**-d).round_floor(d)
+        temp = (self + Num('0.5') * Num('10.0')**-d).round_floor(d)
+        return temp
         
-    ''' Num half even rounding '''
     def round_bank(self, d = 2) -> 'Num':
+        ''' Num half even rounding '''
         if d < 0:
             d = -d; e = 10**d            
             return (self / Num(e)).round_bank(0) * e
@@ -330,13 +331,13 @@ class Num:
                 except:
                     return Num('0.0') #-0.02 => 0.0 OK.
     
-    ''' Num ceil rounding '''
     def round_ceil(self, d = 0) -> 'Num':
+        ''' Num ceil rounding '''
         ''' relative round up: 0.12 => 0.2 -0.12 => -0.1 '''
         if self <= 0: #negatives and zero 
             return self.trunc(d)
         #positives
-        e = Num('1.0') / Num('10.0') ** d
+        e = Num('1.0', d) / Num('10.0') ** d
         if d <= 0:
             t = self.trunc(d) + e; t2 = self + e
             return self if t == t2 else t            
@@ -345,32 +346,32 @@ class Num:
         t = self.trunc(d) + e; t2 = self + e
         return self if t == t2 else t            
                     
-    ''' used by sum() '''
     def reduce(itb, init=None, f=lambda x, y: x+y):
+        ''' used by sum() '''
         i = iter(itb)
         x = next(i) if init is None else init
         for y in i:
             x = f(Num(x), Num(y))
         return x
 
-    ''' calculator sum method '''
     def sum(*multi_args: tuple) -> 'Num': 
+        ''' calculator sum method '''
         return Num.reduce(multi_args)
 
-    ''' calculator mean method '''
     def mean(*multi_args: tuple) -> 'Num': 
-        return Num.reduce(multi_args)/len(multi_args) #
+        ''' calculator mean method '''
+        return Num.reduce(multi_args)/len(multi_args)
     
-    ''' calculator min method '''
     def min(L: list) -> 'Num': 
+        ''' calculator min method '''
         return min([Num(i) for i in L])
     
-    ''' calculator max method '''
     def max(L: list) -> 'Num': 
+        ''' calculator max method '''
         return max([Num(i) for i in L])
 
-    ''' calculator ith root method '''
-    def root_i(n, i = 3, d = 80):
+    def root_i(n, i = 3, d = 80) -> 'Num':
+        ''' calculator ith root method '''
         if not i:
             return('1.0')
         n = Num(n, d); i = Num(i)
@@ -404,15 +405,15 @@ class Num:
             return Num(sign + s)
         return Num(sign + s + '.0') #integer conversion
 
-    ''' calculator square root method '''
     def sqrt(n, d = 80) -> 'Num':
+        ''' calculator square root method '''
         n = Num(n)
         if n.L_n0 > 80 and d == 80:
             return Num.sqr(n, n.L_n0)
         return Num.sqr(n, d)
     
-    ''' square root method => used by sqrt() '''
-    def sqr(n, d = 80):
+    def sqr(n, d = 80) -> 'int Num':
+        ''' square root method => used by sqrt() '''
         ''' sqr(n, d = 80) method runs on python3 trying to be more human style
             and so overcoming sqrt() integer arithmetic limits. (math library function)
         '''                                       
@@ -474,8 +475,8 @@ class Num:
         else:
             raise ValueError(F"Num.sqr => Type not valid: {n}")
 
-    ''' division between signed integer number '''
-    def _divi_(n, div, d=3):
+    def _divi_(n, div, d=3) -> str:
+        ''' division between signed integer number '''
         '''
             It runs the division between signed integer numbers only and the quotient
                 is a floating point string of arbitrary precision (default 3 digits).
@@ -501,8 +502,14 @@ class Num:
                 return r
             return '-' + s
 
-    ''' Num object constructor '''  
-    def __init__(self, n, d = 80):
+    def __hash__(self) -> int:
+        if int(self.n1): #floating point
+            return hash(self.n)
+        else: 			 #integer
+            return int(self.n2 + self.n0)
+
+    def __init__(self, n, d = 80) -> 'Num':
+        ''' Num object constructor '''  
         #VALIDATION n
         if type(n) == int:
             n = str(n) + '.0' # SUFFIX .0 FOR 'int' type        
@@ -547,12 +554,12 @@ class Num:
                 raise ValueError(F"Num.__init__ => zero can not be signed: {n}")    
         self.d = d if d > self.L_n1 else self.L_n1 #precision
 
-    ''' not logic unary operator '''
-    def __bool__(self): #
+    def __bool__(self) -> bool:
+        ''' not logic unary operator '''
         return False if self.n == '0.0' else True
 
-    ''' (~) not unary bitwise operator '''
-    def __invert__(self): #
+    def __invert__(self) -> 'Num':
+        ''' (~) not unary bitwise operator '''
         if not Num.is_numint(self) or self.n2: #only positive integer
             raise TypeError(F"Num.__invert__ => only positive integer allowed: {self}")        
         t = ''
@@ -560,8 +567,8 @@ class Num:
             t += '0' if bit == '1' else '1'
         return Num(int(t, 2))
     
-    ''' (&) overloading binary & operator (Bitwise AND) '''
-    def __and__(self, sob):
+    def __and__(self, sob) -> int:
+        ''' (&) overloading binary & operator (Bitwise AND) '''
         if not Num.is_numint(self) or self.n2: #only positive integer
             raise TypeError(F"Num.__and__ => only positive integer allowed: {self}")        
         if type(sob) == int or Num.is_numstr(sob):
@@ -572,12 +579,12 @@ class Num:
             raise TypeError(F"Num.__and__ => type not valid: {sob}")        
         return int(self.n0) & int(sob.n0)
 
-    ''' (&) swap operands binary AND bitwise operator '''
-    def __rand__(self, sob): 
+    def __rand__(self, sob) -> int: 
+        ''' (&) swap operands binary AND bitwise operator '''
         return Num(sob).__and__(self)
 
-    ''' (|) overloading binary | operator (Bitwise OR) '''
-    def __or__(self, sob):
+    def __or__(self, sob) -> int:
+        ''' (|) overloading binary | operator (Bitwise OR) '''
         if not Num.is_numint(self) or self.n2: #only positive integer
             raise TypeError(F"Num.__or__ => only positive integer allowed: {self}")       
         if type(sob) == int or Num.is_numstr(sob):
@@ -588,12 +595,12 @@ class Num:
             raise TypeError(F"Num.__or__ => type not valid: {sob}")        
         return int(self.n0) | int(sob.n0)
 
-    ''' (|) swap operands binary OR bitwise operator '''
-    def __ror__(self, sob): 
+    def __ror__(self, sob) -> int: 
+        ''' (|) swap operands binary OR bitwise operator '''
         return Num(sob).__or__(self)
 
-    ''' (^) overloading binary ^ operator (Bitwise XOR) '''
-    def __xor__(self, sob):
+    def __xor__(self, sob) -> int:
+        ''' (^) overloading binary ^ operator (Bitwise XOR) '''
         if not Num.is_numint(self) or self.n2: #only positive integer
             raise TypeError(F"Num.__xor__ => only positive integer allowed: {self}")        
         if type(sob) == int or Num.is_numstr(sob):
@@ -604,24 +611,24 @@ class Num:
             raise TypeError(F"Num.__xor__ => type not valid: {sob}")        
         return int(self.n0) ^ int(sob.n0)
 
-    ''' (^) swap operands binary XOR bitwise operator '''
-    def __rxor__(self, sob): 
+    def __rxor__(self, sob) -> int:
+        ''' (^) swap operands binary XOR bitwise operator '''
         return Num(sob).__xor__(self)
     
-    ''' (built-in abs function) Return the absolute value of a number '''
-    def __abs__(self):        
+    def __abs__(self) -> 'Num':        
+        ''' (built-in abs function) Return the absolute value of a number '''
         return Num(self.n if self.n2 == '' else self.n[1:]) 
     
-    ''' abs method calculator '''
     def abs(self) -> 'Num':
+        ''' abs method calculator '''
         return Num(self).__abs__()
 
-    ''' (+) calculator addition method '''
     def add(a, b) -> 'Num':
+        ''' (+) calculator addition method '''
         return Num(a) + Num(b)
         
-    ''' (+) overloading binary plus operator -used by built-in method sum() '''
-    def __add__(self, sob): 
+    def __add__(self, sob) -> 'Num':
+        ''' (+) overloading binary plus operator -used by built-in method sum() '''
         if type(sob) == int or Num.is_numstr(sob):
             sob = Num(sob)
         if type(sob) != Num:
@@ -651,11 +658,10 @@ class Num:
             if ze >= 0: #0 < Positive add < 1
                 xtr = '0' + '.' + ze*'0' + xt[0:]
                 return Num(xtr)
-        sre=Num(xt[0:-xt_D] + '.' + xt[-xt_D:])
-        return sre #Constructor
+        return Num(xt[0:-xt_D] + '.' + xt[-xt_D:])
     
-    ''' increment variable adding method -object modify by self reference '''
-    def inc(self, sob = 1):
+    def inc(self, sob = 1) -> 'Num':
+        ''' increment variable adding method -object modify by self reference '''
         telf = self + sob
         self.d    = telf.d
         self.n    = telf.n
@@ -666,8 +672,8 @@ class Num:
         self.L_n1 = telf.L_n1         
         return self
     
-    ''' increment variable multiplying method -object modify by self reference '''
-    def incmul(self, sob = 10):
+    def incmul(self, sob = 10) -> 'Num':
+        ''' increment variable multiplying method -object modify by self reference '''
         telf = self * sob
         self.d    = telf.d
         self.n    = telf.n
@@ -678,8 +684,8 @@ class Num:
         self.L_n1 = telf.L_n1         
         return self
     
-    ''' decrement variable subtracting method -object modify by self reference '''
-    def dec(self, sob = 1):
+    def dec(self, sob = 1) -> 'Num':
+        ''' decrement variable subtracting method -object modify by self reference '''
         telf = self - sob
         self.d    = telf.d
         self.n    = telf.n
@@ -690,8 +696,8 @@ class Num:
         self.L_n1 = telf.L_n1         
         return self
     
-    ''' decrement variable dividing method -object modify by self reference '''
-    def decdiv(self, sob = 10):
+    def decdiv(self, sob = 10) -> 'Num':
+        ''' decrement variable dividing method -object modify by self reference '''
         telf = self / sob
         self.d    = telf.d
         self.n    = telf.n
@@ -702,8 +708,8 @@ class Num:
         self.L_n1 = telf.L_n1         
         return self
     
-    ''' clear variable '''
-    def clear(self):
+    def clear(self) -> 'Num':
+        ''' clear variable '''
         telf = self
         self.d    = telf.d
         self.n    = '0.0'
@@ -717,12 +723,12 @@ class Num:
     ''' (+) swap operands binary plus operator -mandatory by built-in method sum() '''
     __radd__ = __add__ 
     
-    ''' (-) calculator subtract method '''
     def sub(a, b) -> 'Num':
+        ''' (-) calculator subtract method '''
         return Num(a) - Num(b)
 
-    ''' (-) overloading binary minus operator '''
-    def __sub__(self, sob): 
+    def __sub__(self, sob) -> 'Num': 
+        ''' (-) overloading binary minus operator '''
         if type(sob) == int or Num.is_numstr(sob):
             sob = Num(sob)
         if type(sob) != Num:
@@ -752,19 +758,18 @@ class Num:
             if ze >= 0: #0 < Positive sub < 1
                 xtr = '0' + '.' + ze*'0' + xt[0:]
                 return Num(xtr)
-        sre=Num(xt[0:-xt_D] + '.' + xt[-xt_D:])
-        return sre #Constructor
+        return Num(xt[0:-xt_D] + '.' + xt[-xt_D:])
     
-    ''' (-) swap operands binary minus operator '''
-    def __rsub__(self, sob): 
+    def __rsub__(self, sob) -> 'Num': 
+        ''' (-) swap operands binary minus operator '''
         return Num(sob).__sub__(self)
             
-    ''' (*) calculator multiplication method '''
     def mul(a, b) -> 'Num':
+        ''' (*) calculator multiplication method '''
         return Num(a) * Num(b)
     
-    ''' (*) overloading binary multiply operator '''
-    def __mul__(self, sob): 
+    def __mul__(self, sob) -> 'Num': 
+        ''' (*) overloading binary multiply operator '''
         if type(sob) == int or Num.is_numstr(sob):
             sob = Num(sob)
         if type(sob) != Num:
@@ -784,23 +789,23 @@ class Num:
             return Num('0' + '.' + ze*'0' + xt[0:])
         return Num(xt[0:-xt_D] + '.' + xt[-xt_D:])
     
-    ''' (<<) left shift binary operator -multiplying for 10 powers '''
-    def __lshift__(self, sob):
+    def __lshift__(self, sob) -> 'Num':
+        ''' (<<) left shift binary operator -multiplying for 10 powers '''
         return self * 10**int(Num(sob)) #
     
-    ''' (<<) swap operands left shift binary operator '''
-    def __rlshift__(self, sob):
+    def __rlshift__(self, sob) -> 'Num':
+        ''' (<<) swap operands left shift binary operator '''
         return Num(sob).__lshift__(self)
         
     ''' (*) swap operands binary multiplication operator '''
     __rmul__ = __mul__ 
     
-    ''' (/) calculator division method '''
     def div(a, b) -> 'Num':
+        ''' (/) calculator division method '''
         return Num(a) / Num(b)
     
-    ''' (/) overloading binary floating point division operator  '''
-    def __truediv__(self, sob): 
+    def __truediv__(self, sob) -> 'Num': 
+        ''' (/) overloading binary floating point division operator  '''
         if type(sob) == int or Num.is_numstr(sob):
            sob = Num(sob)
         if type(sob) != Num:
@@ -817,12 +822,12 @@ class Num:
             x3 = Num._divi_(x1, x2, self.d if self.d > sob.d else sob.d)                            
         return Num(x3)
 
-    ''' (/) swap operands floating point division binary operator  '''
-    def __rtruediv__(self, sob): 
+    def __rtruediv__(self, sob) -> 'Num':
+        ''' (/) swap operands floating point division binary operator  '''
         return Num(sob).__truediv__(self)
     
-    ''' (//) overloading integer division binary operator '''
-    def __floordiv__(self, sob): 
+    def __floordiv__(self, sob) -> 'Num': 
+        ''' (//) overloading integer division binary operator '''
         if type(sob) == int or Num.is_numstr(sob):
             sob = Num(sob)
         if type(sob) != Num:
@@ -839,12 +844,12 @@ class Num:
             x3 = Num._divi_(x1, x2, 0)                            
         return Num(x3)
     
-    ''' (//) swap operands integer division binary operator '''
-    def __rfloordiv__(self, sob): 
+    def __rfloordiv__(self, sob) -> 'Num': 
+        ''' (//) swap operands integer division binary operator '''
         return Num(sob).__floordiv__(self)
 
-    ''' (%) overloading module binary operator (Num floating point division remainder) '''
-    def __mod__(self, sob): 
+    def __mod__(self, sob) -> 'Num': 
+        ''' (%) overloading module binary operator (Num floating point division remainder) '''
         if type(sob) == int or Num.is_numstr(sob):
             sob = Num(sob)
         if type(sob) != Num:
@@ -861,45 +866,44 @@ class Num:
             x3 = Num._divi_(x1, x2, 0)                            
         return self - (Num(x3) * sob)
 
-    ''' (%) swap operands module operator (integer division remainder) '''
-    def __rmod__(self, sob): 
+    def __rmod__(self, sob) -> 'Num':
+        ''' (%) swap operands module operator (integer division remainder) '''
         return Num(sob).__mod__(self)
 
-    ''' (// %) calculator divmod return a tuple (self // sob, self % sob) '''
     def divmod(self, sob) -> tuple:    
+        ''' (// %) calculator divmod return a tuple (self // sob, self % sob) '''
         Q = Num(self).__floordiv__(Num(sob))
         R = Num(self).__mod__(Num(sob))
         return Q, R
 
-    ''' (divmod built-in method) return a tuple (self // sob, self % sob) '''
-    def __divmod__(self, sob):    
+    def __divmod__(self, sob) -> tuple:    
+        ''' (divmod built-in method) return a tuple (self // sob, self % sob) '''
         Q = (self).__floordiv__((sob))
         R = (self).__mod__((sob))
         return Q, R
 
-    ''' (divmod built-in method) swap operands '''
-    def __rdivmod__(self, sob): 
+    def __rdivmod__(self, sob) -> 'Num': 
+        ''' (divmod built-in method) swap operands '''
         return Num(sob).__divmod__(self)
     
-    ''' (>>) right shift binary operator -dividing for ten powers '''
-    def __rshift__(self, sob):
+    def __rshift__(self, sob) -> 'Num':
+        ''' (>>) right shift binary operator -dividing for ten powers '''
         sob = Num(sob)
         t = sob + self.L_n1
         self.d = t if t > self.d else self.d
-        return self / 10**int(sob) #
+        return self / 10**int(sob) 
     
-    ''' (>>) swap operands right shift binary operator '''
-    def __rrshift__(self, sob):
+    def __rrshift__(self, sob) -> 'Num':
+        ''' (>>) swap operands right shift binary operator '''
         return Num(sob).__rshift__(self)
-   
-                
-    ''' (== !=) overloading equal and not equal logic binary operators '''
-    def __eq__(self, sob): #== !=
+                   
+    def __eq__(self, sob) -> bool: #== !=
+        ''' (== !=) overloading equal and not equal logic binary operators '''
         sob = Num(sob)
         return True if self.n == sob.n else False
     
-    ''' (>) overloading greater logic binary operator '''
-    def __gt__(self, sob): #>
+    def __gt__(self, sob) -> bool: #>
+        ''' (>) overloading greater logic binary operator '''
         sob = Num(sob)
         if int(self.n2+self.n0) > int(sob.n2+sob.n0):
             return True
@@ -917,52 +921,52 @@ class Num:
                 return True if int(self.n2+self.n1) > int(sob.n2+sob.n1) else False
         return False
 
-    ''' (>=) overloading greater or equal logic binary operator '''
-    def __ge__(self, sob): #>=
+    def __ge__(self, sob) -> bool: #>=
+        ''' (>=) overloading greater or equal logic binary operator '''
         return True if self > sob or self == sob else False
 
-    ''' (<) overloading less logic binary operator '''
-    def __lt__(self, sob): #<
+    def __lt__(self, sob) -> bool: #<
+        ''' (<) overloading less logic binary operator '''
         return False if self >= sob else True #
 
-    ''' (<=) overloading less or equal logic binary operator '''
-    def __le__(self, sob): #<=
+    def __le__(self, sob) -> bool: #<=
+        ''' (<=) overloading less or equal logic binary operator '''
         return False if self > sob else True  #
     
-    ''' overloading built-in method len() '''
-    def __len__(self):
+    def __len__(self) -> int:
+        ''' overloading built-in method len() '''
         return len(self.n)
     
-    ''' return a tuple with num lengths before and after floating point dot '''
     def len(self) -> tuple:
+        ''' return a tuple with num lengths before and after floating point dot '''
         return len(self.n0), 0 if len(self.n1) == 1 and self.n1 == '0' else len(self.n1)       
     
-    ''' overloading unary operator - '''
-    def __neg__(self): #
+    def __neg__(self) -> 'Num':
+        ''' overloading unary operator - '''
         return Num(self.n[1:]) if self.n2 == '-' else Num('-' + self.n)
     
-    ''' overloading unary operator + '''
-    def __pos__(self): #
+    def __pos__(self) -> 'Num':
+        ''' overloading unary operator + '''
         return Num(self.n)
     
-    ''' (built-in int method) Num to int (truncation) - great loss precision! '''
-    def __int__(self): #
+    def __int__(self) -> int: 
+        ''' (built-in int method) Num to int (truncation) - great loss precision! '''
         return int(self.n2 + self.n0) 
 
-    ''' (truncation) Num to int method - great loss precision! '''
-    def int(self) -> int: #
+    def int(self) -> int: 
+        ''' (truncation) Num to int method - great loss precision! '''
         return self.__int__()
 
-    ''' Num to float (loss precision!) '''
-    def __float__(self): #
+    def __float__(self) -> float: 
+        ''' Num to float (loss precision!) '''
         return float(self.n)
 
-    ''' pow method calculator '''
     def pow(self, e) -> 'Num':
+        ''' pow method calculator '''
         return Num(self).__pow__(Num(e))        
     
-    ''' (**) overloading power binary operator and used by built-in function pow() '''
-    def __pow__(self, e): # e mandatory,  
+    def __pow__(self, e) -> 'Num': #argument e mandatory,  
+        ''' (**) overloading power binary operator and used by built-in function pow() '''
         if type(e) != int and type(e) != Num:
             raise ValueError(F"Num.__pow__ => type not valid: {e}")            
         if type(e) == int or type(e) == Num and e.is_numint():            
@@ -980,27 +984,33 @@ class Num:
             return b   
         raise ValueError(F"Num.__pow__ => Num, must be integer value: {e}")
     
-    ''' (**) swap operands power binary operator '''
-    def __rpow__(self, sob): 
+    def __rpow__(self, sob) -> 'Num': 
+        ''' (**) swap operands power binary operator '''
         return Num(sob).__pow__(self)
 
-    ''' built-in function round() '''
-    def __round__(self, d = 2):  #   
+    def __round__(self, d = 2) -> 'Num':   
+        ''' built-in function round() '''
         return self.round(d)
     
-    ''' like math.trunc() function '''
-    def __trunc__(self): #
+    def __trunc__(self) -> int: 
+        ''' like math.trunc() function '''
         return self.__int__()
     
-    ''' built-in function str() '''
-    def __str__(self): #  
-        return self.n # self.n
+    def __str__(self) -> str:   
+        ''' built-in function str() '''
+        return self.n
 
-    ''' built-in function repr() '''
-    def __repr__(self): #almost like __str__ (obj representation in REPL)
+    def __repr__(self) -> str: #almost like __str__ (obj representation in REPL)
+        ''' built-in function repr() '''
         return str('Num(\'' + self.n + '\')')
-    
-    def doc():
+
+    def __format__(self, spec) -> str:
+        if self.is_numint():
+            return int(self.n2 + self.n0).__format__(spec)
+        else:
+            return float(self.n).__format__(spec)
+
+    def doc() -> str: 
         return '''        --- SUPREME PRECISION GENERAL PURPOSE ARITHMETIC-LOGIC DECIMAL CLASS DOCUMENTATION ---
 
         Num is a lightweight floating point numeric class for arbitrary precision results with always supreme precision.        
@@ -1030,7 +1040,7 @@ class Num:
         MEAN:              >>> cart = ['19.32','18.37','15.13']; calc.mean(*cart).round() #Num('17.61')
         MIN:               >>> cart = ['19.32','18.37','15.13']; calc.min(cart)           #Num('15.13')
         MAX:               >>> cart = ['19.32','18.37','15.13']; calc.max(cart)           #Num('19.32')
-        EXP:               >>> calc.mul('-5.3e1024', '2.1e1024').num2exp()                #'-1113E2046'
+        EXP:               >>> calc.mul('-5.3e1024', '2.1e1024').num2exp()                #'-1113e2046'
         REPL:              >>> a = calc('0.1'); b = calc('0.2'); print(calc.add(a, b))    #0.3
 
         CODING:
@@ -1285,6 +1295,10 @@ T2 = toc - tic
 print(f"b finished sec. {T2:1.6f}")
 R = Num.f_perf_time(str(T1), str(T2))                                         # a finished sec. 0.000029  b finished sec. 0.000125 
 print('PCT=>', R[0].round(), 'SCALE=>', R[1].round(), 'SQUARENESS=>', a == b) # PCT=> -76.74 SCALE=> -3.3 SQUARENESS=> True
+#stock exchange assets performance  
+previous = Num('26.96'); now = Num('27.27')  
+var_pct = Num.f_perf(previous, now).round()  
+print(f'{float(var_pct):+.2f}') #'26.96' -> '27.27' => +1.15
 
     ### SCIENTIFIC NOTATION AND HIGH PRECISION RESULTS >>>
 from num7 import Num, Num as calc
