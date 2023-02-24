@@ -4,7 +4,8 @@
 - _**`Num`**_ is a lightweight floating point numeric class for arbitrary precision results with always supreme precision.
 
 Easy to use like school math and WITHOUT IEEE754 ISSUES or +0 AND -0 FAILURES, it can be deployed  
-for web e-commerce developing, accounting apps and general math programs included financial ones.
+for web e-commerce developing, accounting apps and general math programs included financial ones.  
+Compatible with MicroPython also a Rasperry pi pico (RP2040) can work with almost num7 capability.  
 
 ---
 
@@ -45,7 +46,7 @@ for web e-commerce developing, accounting apps and general math programs include
 	MEAN:              >>> cart = ['19.32','18.37','15.13']; calc.mean(*cart).round() #Num('17.61')  
 	MIN:               >>> cart = ['19.32','18.37','15.13']; calc.min(cart)           #Num('15.13')  
 	MAX:               >>> cart = ['19.32','18.37','15.13']; calc.max(cart)           #Num('19.32')  
-	EXP:               >>> calc.mul('-5.3e1024', '2.1e1024').num2exp()                #'-1113E2046'  
+	EXP:               >>> calc.mul('-5.3e1024', '2.1e1024').num2exp()                #'-1113e2046'  
 	REPL:              >>> a = calc('0.1'); b = calc('0.2'); print(calc.add(a, b))    #0.3  
 
 ## CODING:  
@@ -249,7 +250,7 @@ OUTPUT FORMATTING AND LOCALIZATION >>>
     asset = Num('100_000.0'); rate = Num('6.5'); years = Num('20.0')  
     monthly_payment = Num.f_fund_fr(asset, rate, years)  
     print(locale.format_string("%.2f", float(monthly_payment)))   #756,30  
-    print(locale.currency(float(monthly_payment), grouping=True)) #756,30 €  
+    print(locale.currency(float(monthly_payment), grouping=True)) #756,30 (currency symbol)  
 
 ROUNDING TYPES >>>  
 
@@ -408,7 +409,7 @@ A. You must use quotes or string conversion with built-in str function:
 	>>> Num('0.1')    #Num('0.1')  
 	>>> Num(str(0.1)) #Num('0.1')  
 
-Q. How can i convert a regular float to a Decimal?
+Q. How can i convert a regular float to a Decimal?  
 A. With Num.ieee754() method >>>  
 
 	from num7 import Num, Num as calc  
@@ -456,3 +457,12 @@ A. Set the max string digits allowed in this way >>>
 	import sys  
 	sys.set_int_max_str_digits(1_000_000) #1_000_000 str digits set 
 	print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #511111111e-10008  
+
+Q. I must enter many integer variables in my code:  
+
+	>>> a = Num('123.0'); b = Num('456.0'); c = Num('789.0')
+	
+Can i input them without quotes and suffix .0?  
+A. Yes, this way:
+
+	>>> a = Num(123); b = Num(456); c = Num(789)  
