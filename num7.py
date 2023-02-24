@@ -71,7 +71,7 @@ class Num:
         if 'E' in n.upper():            
             n = Num.exp2num(n)
         nv = n.split('.')
-        if len(nv) != 2 or not (type(int(nv[0])) == int and nv[1].isnumeric()): 
+        if len(nv) != 2 or not (type(int(nv[0])) == int and nv[1].isdigit()): 
             return False            
         n0 = nv[0].strip().replace('_', ''); L_n0 = len(n0) #clear space, '_'     
         n1 = nv[1]                         ; L_n1 = len(n1)         
@@ -113,7 +113,7 @@ class Num:
             if self % 2:
                 return False
             return True
-        raise ValueError(F"Num.is_numeven => Num, must be integer value: {self}")
+        raise ValueError("Num.is_numeven => Num, must be integer value: ", self)
     
     def is_numodd(self) -> bool:
         ''' is_numodd checks if odd num '''
@@ -121,22 +121,22 @@ class Num:
             if self % 2:
                 return True
             return False
-        raise ValueError(F"Num.is_numodd => Num, must be integer value: {self}")
+        raise ValueError("Num.is_numodd => Num, must be integer value:", self)																			  
     
     def exp2num(s) -> str:
         ''' convert a scientific notation number to string numeric '''
         if type(s) != str:
-            raise ValueError(F"Num.exp2num => type not valid: {s}")
+            raise ValueError("Num.exp2num => type not valid:", s)																 
         s = s.strip().upper()
         be = s.split('E'); be0 = be[0]; be1 = be[1]
         if len(be) > 2:
-            raise ValueError(F"Num.exp2num => scientific notation not valid: {s}")    
+            raise ValueError("Num.exp2num => scientific notation not valid:", s)    																					
         try:
             float(be0); float(be1)
         except:
-            raise ValueError(F"Num.exp2num => scientific notation not valid: {s}")
+            raise ValueError("Num.exp2num => scientific notation not valid:", s)																		
         if be1 == '-0' or be1 == '+0':
-            raise ValueError(F"Num.exp2num => zero can not be signed: {s}")    
+            raise ValueError("Num.exp2num => zero can not be signed:", s)    																			 
         POS = False if '-' in be0 else True
         EXP = int(be1);
         bf = be[0].split('.');
@@ -210,7 +210,7 @@ class Num:
     def num2exp(ob) -> str:
         ''' convert a Num object to scientific notation string '''
         if type(ob) != Num:
-            raise ValueError(F"Num.num2exp => type not valid: {ob}")
+            raise ValueError("Num.num2exp => type not valid:", ob)																  
         if ob.n1 == '0': #EXP >= 0
             n0 = ob.n0
             i = len(n0)-1
@@ -376,7 +376,7 @@ class Num:
             return('1.0')
         n = Num(n, d); i = Num(i)
         if i.is_numeven() and n.n2:
-            raise ValueError(F"Num.root_i => Negative number: {n}")
+            raise ValueError("Num.root_i => Negative number:", n)																 
         if i < 0:
             n = 1/n
             i = -i
@@ -395,7 +395,7 @@ class Num:
             try:
                 t = (i-1)*s + n//s**(i-1)
             except:
-                raise ValueError(F"Num.root_i => d parameter too low: {d}")
+                raise ValueError("Num.root_i => d parameter too low:", d)																		 
             z = t//i
         s = str(s)   
         if d: #floating point conversion with clearing zeros        
@@ -421,7 +421,7 @@ class Num:
 
         if type(n) == int: #only integer square root (not floating point)        
             if n < 0:
-                raise ValueError(F"Num.sqr => Negative number: {n}")
+                raise ValueError("Num.sqr => Negative number:", n)																  
             if not n: # zero
                 return 0 #
             L = len(str(n))+1 >> 1 #two division to obtain integer root size
@@ -435,7 +435,7 @@ class Num:
         if type(n) == Num: #str
             nv = str(n).split('.')
             if int(nv[0]) < 0:
-                raise ValueError(F"Num.sqr => Negative number: {n}")
+                raise ValueError("Num.sqr => Negative number:", n)															  
                    
             n0 = nv[0]; L_n0 = len(n0)         
             n1 = nv[1]; L_n1 = len(n1)         
@@ -471,9 +471,9 @@ class Num:
                     temp = str(Num.sqr(int(n0 + n1 + (d-1)*'00'), 0))
                     return Num(temp[0:L_rx] + '.' + temp[L_rx:L_rx+d])            
         if type(n) == float:
-            raise ValueError(F"Num.sqr => 'float', type not valid: {n}")
+            raise ValueError("Num.sqr => 'float', type not valid:", n)																	  
         else:
-            raise ValueError(F"Num.sqr => Type not valid: {n}")
+            raise ValueError("Num.sqr => Type not valid:", n)															 
 
     def _divi_(n, div, d=3) -> str:
         ''' division between signed integer number '''
@@ -514,7 +514,7 @@ class Num:
         if type(n) == int:
             n = str(n) + '.0' # SUFFIX .0 FOR 'int' type        
         if type(n) == float:
-            raise ValueError(F"Num.__init__ => float, type not valid: {n}")            
+            raise ValueError("Num.__init__ => float, type not valid:", n)            																					 
         if type(n) == Num:
             self.d    = n.d
             self.n    = n.n
@@ -525,12 +525,12 @@ class Num:
             self.L_n1 = n.L_n1         
             return None
         if type(n) != str:
-            raise ValueError(F"Num.__init__ => type not valid: {n}")    
+            raise ValueError("Num.__init__ => type not valid:", n)    																	  
         if 'E' in n.upper():            
             n = Num.exp2num(n)        
         nv = n.split('.')
-        if len(nv) != 2 or not (type(int(nv[0])) == int and nv[1].isnumeric()): 
-            raise ValueError(F"Num.__init__ => number format not valid: {n}")                   
+        if len(nv) != 2 or not (type(int(nv[0])) == int and nv[1].isdigit()): #.isnumeric() .isdigit() .isdecimal()
+            raise ValueError("Num.__init__ => number format not valid:", n)                   																							  
         self.n0 = nv[0].strip().replace('_', ''); self.L_n0 = len(self.n0) #clear space, '_'     
         self.n1 = nv[1]                         ; self.L_n1 = len(self.n1)         
         if  self.n0[0] == '-':  #negative
@@ -551,7 +551,7 @@ class Num:
         self.n = self.n2 + self.n0 + '.' + self.n1         #set all number cleaned 
         if self.n0 == '0' and self.n1 == '0': # zero get not any sign == BE CAREFUL!
             if self.n2 == '-' or n[0] == '+':
-                raise ValueError(F"Num.__init__ => zero can not be signed: {n}")    
+                raise ValueError("Num.__init__ => zero can not be signed:", n)    																				  
         self.d = d if d > self.L_n1 else self.L_n1 #precision
 
     def __bool__(self) -> bool:
@@ -561,7 +561,7 @@ class Num:
     def __invert__(self) -> 'Num':
         ''' (~) not unary bitwise operator '''
         if not Num.is_numint(self) or self.n2: #only positive integer
-            raise TypeError(F"Num.__invert__ => only positive integer allowed: {self}")        
+            raise TypeError("Num.__invert__ => only positive integer allowed:", self)        																							 
         t = ''
         for bit in bin(int(self.n0))[2:]:
             t += '0' if bit == '1' else '1'
@@ -570,13 +570,13 @@ class Num:
     def __and__(self, sob) -> int:
         ''' (&) overloading binary & operator (Bitwise AND) '''
         if not Num.is_numint(self) or self.n2: #only positive integer
-            raise TypeError(F"Num.__and__ => only positive integer allowed: {self}")        
+            raise TypeError("Num.__and__ => only positive integer allowed:", self)        																						  
         if type(sob) == int or Num.is_numstr(sob):
             sob = Num(sob)
         if not Num.is_numint(sob) and sob >= 0: #only integer
-            raise TypeError(F"Num.__and__ => only positive integer allowed: {sob}")              
+            raise TypeError("Num.__and__ => only positive integer allowed:", sob)              																							   
         if type(sob) != Num:
-            raise TypeError(F"Num.__and__ => type not valid: {sob}")        
+            raise TypeError("Num.__and__ => type not valid:", sob)        																		  
         return int(self.n0) & int(sob.n0)
 
     def __rand__(self, sob) -> int: 
@@ -586,13 +586,13 @@ class Num:
     def __or__(self, sob) -> int:
         ''' (|) overloading binary | operator (Bitwise OR) '''
         if not Num.is_numint(self) or self.n2: #only positive integer
-            raise TypeError(F"Num.__or__ => only positive integer allowed: {self}")       
+            raise TypeError("Num.__or__ => only positive integer allowed:", self)       																						
         if type(sob) == int or Num.is_numstr(sob):
             sob = Num(sob)
         if not Num.is_numint(sob):   #only integer
-            raise TypeError(F"Num.__or__ => only positive integer allowed: {self}")            
+            raise TypeError("Num.__or__ => only positive integer allowed:", self)            																							 
         if type(sob) != Num:
-            raise TypeError(F"Num.__or__ => type not valid: {sob}")        
+            raise TypeError("Num.__or__ => type not valid:", sob)        																		 
         return int(self.n0) | int(sob.n0)
 
     def __ror__(self, sob) -> int: 
@@ -602,13 +602,13 @@ class Num:
     def __xor__(self, sob) -> int:
         ''' (^) overloading binary ^ operator (Bitwise XOR) '''
         if not Num.is_numint(self) or self.n2: #only positive integer
-            raise TypeError(F"Num.__xor__ => only positive integer allowed: {self}")        
+            raise TypeError("Num.__xor__ => only positive integer allowed:", self)        																						  
         if type(sob) == int or Num.is_numstr(sob):
             sob = Num(sob)
         if not Num.is_numint(sob):   #only integer
-            raise TypeError(F"Num.__xor__ => only positive integer allowed: {self}")              
+            raise TypeError("Num.__xor__ => only positive integer allowed:", self)             																							   
         if type(sob) != Num:
-            raise TypeError(F"Num.__xor__ => type not valid: {sob}")        
+            raise TypeError("Num.__xor__ => type not valid:", sob)        																		  
         return int(self.n0) ^ int(sob.n0)
 
     def __rxor__(self, sob) -> int:
@@ -632,7 +632,7 @@ class Num:
         if type(sob) == int or Num.is_numstr(sob):
             sob = Num(sob)
         if type(sob) != Num:
-            raise TypeError(F"Num.__add__( => type not valid: {sob}")
+            raise TypeError("Num.__add__( => type not valid:", sob)																   
         if   self.L_n1 < sob.L_n1:
             x1 = int(self.n2 + self.n0 + self.n1 + (sob.L_n1-self.L_n1)*'0')
             x2 = int(sob.n2 + sob.n0 + sob.n1)
@@ -732,7 +732,7 @@ class Num:
         if type(sob) == int or Num.is_numstr(sob):
             sob = Num(sob)
         if type(sob) != Num:
-            raise TypeError(F"Num.__sub__ => type not valid: {sob}")
+            raise TypeError("Num.__add__( => type not valid:", sob)																  
         if   self.L_n1 < sob.L_n1:
             x1 = int(self.n2 + self.n0 + self.n1 + (sob.L_n1-self.L_n1)*'0')
             x2 = int(sob.n2 + sob.n0 + sob.n1)
@@ -773,7 +773,7 @@ class Num:
         if type(sob) == int or Num.is_numstr(sob):
             sob = Num(sob)
         if type(sob) != Num:
-            raise TypeError(F"Num.__mul__ => type not valid: {sob}")
+            raise TypeError("Num.__mul__ => type not valid:", sob)																  
         x1 = int(self.n2 + self.n0 + self.n1); x2 = int(sob.n2 + sob.n0 + sob.n1)
         x3 = x1*x2
         if not x3: #multiply with 0
@@ -809,7 +809,7 @@ class Num:
         if type(sob) == int or Num.is_numstr(sob):
            sob = Num(sob)
         if type(sob) != Num:
-            raise TypeError(F"Num.__truediv__ => type not valid: {sob}")
+            raise TypeError("Num.__truediv__ => type not valid:", sob)																	  
         if self.n == '0.0':
             return Num('0.0')
         if self.L_n1 > sob.L_n1:
@@ -831,7 +831,7 @@ class Num:
         if type(sob) == int or Num.is_numstr(sob):
             sob = Num(sob)
         if type(sob) != Num:
-            raise TypeError(F"Num.__floordiv__ => type not valid: {sob}")
+            raise TypeError("Num.__floordiv__ => type not valid:", sob)																	   
         if self.n == '0.0':
             return Num('0.0')
         if self.L_n1 > sob.L_n1:
@@ -853,7 +853,7 @@ class Num:
         if type(sob) == int or Num.is_numstr(sob):
             sob = Num(sob)
         if type(sob) != Num:
-            raise TypeError(F"Num.__mod__ => type not valid: {sob}")
+            raise TypeError("Num.__floordiv__ => type not valid:", sob)																  
         if self.n == '0.0':
             return Num('0.0')
         if self.L_n1 > sob.L_n1:
@@ -968,7 +968,7 @@ class Num:
     def __pow__(self, e) -> 'Num': #argument e mandatory,  
         ''' (**) overloading power binary operator and used by built-in function pow() '''
         if type(e) != int and type(e) != Num:
-            raise ValueError(F"Num.__pow__ => type not valid: {e}")            
+            raise ValueError("Num.__pow__ => type not valid:", e)            																			 
         if type(e) == int or type(e) == Num and e.is_numint():            
             if e < 0:
                 b = i = Num('1.0') / self #
@@ -982,7 +982,7 @@ class Num:
                     b *= self #Num(self.n)
                     e -= 1
             return b   
-        raise ValueError(F"Num.__pow__ => Num, must be integer value: {e}")
+        raise ValueError("Num.__pow__ => Num, must be integer value:", e)																		 
     
     def __rpow__(self, sob) -> 'Num': 
         ''' (**) swap operands power binary operator '''
@@ -1017,6 +1017,7 @@ class Num:
         
         Easy to use like school math and WITHOUT IEEE754 ISSUES or +0 AND -0 FAILURES, it can be deployed for
         web e-commerce developing, accounting apps and general math programs included financial ones.
+		Compatible with MicroPython also a Rasperry pi pico can work with almost num7 capability. 
         
         HOW TO USE (integer numeric strings (ex. '2.0') MUST BE SUFFIXED WITH .0):                        
         --- CALCULATOR MODE ---           
@@ -1417,5 +1418,14 @@ from num7 import Num
 import sys  
 sys.set_int_max_str_digits(1_000_000) #1_000_000 str digits set 
 print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #511111111e-10008  
+
+Q. I must enter many integer variables in my code:  
+
+	>>> a = Num('123.0'); b = Num('456.0'); c = Num('789.0')
+	
+Can i input them without quotes and suffix .0?  
+A. Yes, this way:
+
+	>>> a = Num(123); b = Num(456); c = Num(789)  
 
 '''
