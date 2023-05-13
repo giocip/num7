@@ -810,6 +810,8 @@ class Num:
            sob = Num(sob)
         if type(sob) != Num:
             raise TypeError("Num.__truediv__ => type not valid:", sob)																	  
+        if sob == '0.0':
+            raise Exception('Num.__truediv__ => ZeroDivisionError: Num division by zero')
         if self.n == '0.0':
             return Num('0.0')
         if self.L_n1 > sob.L_n1:
