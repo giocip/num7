@@ -972,6 +972,8 @@ class Num:
         if type(e) != int and type(e) != Num:
             raise ValueError("Num.__pow__ => type not valid:", e)            																			 
         if type(e) == int or type(e) == Num and e.is_numint():            
+            if self == Num('0.0') and e == 0:
+                raise ValueError("Num.__pow__ => undetermined:", e) 
             if e < 0:
                 b = i = Num('1.0') / self #
                 e = -e
