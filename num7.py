@@ -210,33 +210,28 @@ class Num:
     def num2exp(ob) -> str:
         ''' convert a Num object to scientific notation string '''
         if type(ob) != Num:
-            raise ValueError("Num.num2exp => type not valid:", ob)																  
+            raise ValueError("Num.num2exp => type not valid:", ob)  
         if ob.n1 == '0': #EXP >= 0
-            n0 = ob.n0
-            i = len(n0)-1
-            e = 0 #s = ''; e = 0
-            while i:  #while i >= 0:
-                if n0[i] == '0':                    
-                    e += 1; i -= 1
-                    continue
-                break
-            if not e:
-                return ob.n
-            CHECK = n0[0:i+1] + 'e' + str(e) #
-            return ob.n2 + CHECK
+            if ob.L_n0 < 2:
+                return ob
+            e = ob.L_n0 - 1
+            CHECK = (ob.n0[0] + '.' + ob.n0[1:]).rstrip('0')
+            if CHECK[-1] == '.':
+                CHECK += '0'
+            return ob.n2 + CHECK + 'e' + str(e)
         if ob.n0 == '0': #EXP < 0
-            n1 = ob.n1
-            e = 1
-            for i in range(len(n1)):
-                if n1[i] == '0':
-                    e += 1
-                    continue
-                break
-            if not i:
-                return ob.n
-            CHECK = n1[i:] + 'e-' + str(e+len(n1[i:])-1) #   
-            return ob.n2 + CHECK        
-        return ob.n
+            if ob.L_n1 < 2:
+                return ob
+            n1 = ob.n1.lstrip('0')
+            L_n1 = len(n1)
+            e = ob.L_n1 - L_n1 + 1
+            if L_n1 == 1:
+                return ob.n2 + n1 + '.0' + 'e' + str(-e)
+            return ob.n2 + n1[-L_n1:-L_n1+1] + '.' + n1[-L_n1+1:] + 'e' + str(-e)
+        if ob.L_n0 == 1:
+            return ob.n
+        e = ob.L_n0 - 1
+        return ob.n2 + ob.n0[0] + '.' + ob.n0[1:] + ob.n1 + 'e' + str(e)
     
     def numint(self) -> 'Num':
         ''' Num integer truncation '''
@@ -544,7 +539,7 @@ class Num:
             if not len(self.n0): #if ''
                 self.n0 = '0'
         if self.L_n1 > 1:
-            self.n1 = self.n1.rstrip('0') #clear RIGTH zeros
+            self.n1 = self.n1.rstrip('0') #clear RIGHT zeros
             if not len(self.n1): #if ''
                 self.n1 = '0'                
         self.L_n0 = len(self.n0); self.L_n1 = len(self.n1) #check for new len       
@@ -1045,7 +1040,7 @@ class Num:
         MEAN:              >>> cart = ['19.32','18.37','15.13']; calc.mean(*cart).round() #Num('17.61')
         MIN:               >>> cart = ['19.32','18.37','15.13']; calc.min(cart)           #Num('15.13')
         MAX:               >>> cart = ['19.32','18.37','15.13']; calc.max(cart)           #Num('19.32')
-        EXP:               >>> calc.mul('-5.3e1024', '2.1e1024').num2exp()                #'-1113e2046'
+        EXP:               >>> calc.mul('-5.3e1024', '2.1e1024').num2exp()                #'-1.113e2049'
         REPL:              >>> a = calc('0.1'); b = calc('0.2'); print(calc.add(a, b))    #0.3
 
         CODING:
@@ -1311,13 +1306,13 @@ a = Num('1_000_000_000_000_000_000_000.0') #standard notation
 b = Num('1e21') #scientific notation
 SUM = a + b #SUM
 ieee754 = float(a)+float(b) 
-print('SUM == ieee754', SUM == Num(str(ieee754)), ' SUM =>', SUM.num2exp()) #SUM == ieee754 True  SUM => 2e21
+print('SUM == ieee754', SUM == Num(str(ieee754)), ' SUM =>', SUM.num2exp()) #SUM == ieee754 True  SUM => 2.0e21
 ###
 a = Num('1_000_000_000_000_000_000_000.0') #standard notation
 b = Num('1e21') #scientific notation
 MUL = a * b #MUL
 ieee754 = float(a)*float(b) 
-print('MUL == ieee754', MUL == Num(str(ieee754)), ' MUL =>', MUL.num2exp()) #MUL == ieee754 True  MUL => 1e42
+print('MUL == ieee754', MUL == Num(str(ieee754)), ' MUL =>', MUL.num2exp()) #MUL == ieee754 True  MUL => 1.0e42
 ###
 a = '1.23456789'
 b = '9.87654321'
@@ -1329,7 +1324,7 @@ a = '1.23456789e320' #scientific notation
 b = '9.87654321e320'
 MUL = Num(a) * Num(b) #MUL
 ieee754 = float(a)*float(b)
-print('MUL == ieee754', MUL.str() == str(ieee754), 'MUL =>', MUL.num2exp(), float(a)*float(b), '=> IEEE754 inf FAILURE!') #MUL == ieee754 False MUL => 121932631112635269e624 inf => IEEE754 inf FAILURE!
+print('MUL == ieee754', MUL.str() == str(ieee754), 'MUL =>', MUL.num2exp(), float(a)*float(b), '=> IEEE754 inf FAILURE!') #MUL == ieee754 False MUL => 1.21932631112635269e641 inf => IEEE754 inf FAILURE!
 ###
 a = '2e320' #scientific notation
 b = '3e-320'
@@ -1343,7 +1338,7 @@ T1 = Num(a, 1200) #ultra precision (over 80 digits default) floating point divis
 T2 = Num(b)
 DIV = T1 / T2 #DIV
 ieee754 = float(a)/float(b)
-print('DIV == ieee754', DIV.str() == str(ieee754), 'DIV =>', DIV.num2exp(), ieee754, '=> IEEE754 precision FAILURE!') #DIV == ieee754 False DIV => 2e-1001 0.0 => IEEE754 precision FAILURE!
+print('DIV == ieee754', DIV.str() == str(ieee754), 'DIV =>', DIV.num2exp(), ieee754, '=> IEEE754 precision FAILURE!') #DIV == ieee754 False DIV => 2.0e-1001 0.0 => IEEE754 precision FAILURE!
 
     ### FLOAT TO NUM CONVERSION LIST >>>
 from num7 import Num, Num as calc
@@ -1403,15 +1398,15 @@ print(an+bn, 'OK. VS', a+b, 'PRECISION FAILURE!') #0.3 OK. VS 0.3000000000000000
 Q. Can i do add or other math operations also with 10_000 digits after floating point?
 A. Yes, you can. >>>
 from num7 import Num, Num as calc
-print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #511111111e-10008
-print((Num('1.123456789e-10_000') - Num('3.987654321e-10_000')).num2exp()) #-2864197532e-10009
-print((Num('1.123456789e-10_000') * Num('3.987654321e-10_000')).num2exp()) #4479957319112635269e-20018
+print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #5.11111111e-10000
+print((Num('1.123456789e-10_000') - Num('3.987654321e-10_000')).num2exp()) #-2.864197532e-10000
+print((Num('1.123456789e-10_000') * Num('3.987654321e-10_000')).num2exp()) #4.479957319112635269e-20000  
 print((Num('1.123456789e-10_000') / Num('3.987654321e-10_000'))) #0.28173374584742497292307298769992856660154820877213142969420392746224704666420356
 
 Q. With Python 3.11 it gets an error when running this code >>>
 
 from num7 import Num  
-print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #511111111e-10008  
+print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #5.11111111e-10000  
 
 ValueError: Exceeds the limit (4300) for integer string conversion: value has 10010 digits; use sys.set_int_max_str_digits() to increase the limit  
 
@@ -1421,7 +1416,7 @@ A. Set the max string digits allowed in this way >>>
 from num7 import Num  
 import sys  
 sys.set_int_max_str_digits(1_000_000) #1_000_000 str digits set 
-print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #511111111e-10008  
+print((Num('1.123456789e-10_000') + Num('3.987654321e-10_000')).num2exp()) #5.11111111e-10000  
 
 Q. I must enter many integer variables in my code:  
 
