@@ -463,6 +463,6 @@ Q. I must enter many integer variables in my code:
 	>>> a = Num('123.0'); b = Num('456.0'); c = Num('789.0')
 	
 Can i input them without quotes and suffix .0?  
-A. Yes, this way:
+A. Yes, this the way:
 
 	>>> a = Num(123); b = Num(456); c = Num(789)  
