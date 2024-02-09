@@ -212,24 +212,18 @@ class Num:
         if type(ob) != Num:
             raise ValueError("Num.num2exp => type not valid:", ob)  
         if ob.n1 == '0': #EXP >= 0
-            if ob.L_n0 < 2:
-                return ob
             e = ob.L_n0 - 1
             CHECK = (ob.n0[0] + '.' + ob.n0[1:]).rstrip('0')
             if CHECK[-1] == '.':
                 CHECK += '0'
             return ob.n2 + CHECK + 'e' + str(e)
         if ob.n0 == '0': #EXP < 0
-            if ob.L_n1 < 2:
-                return ob
             n1 = ob.n1.lstrip('0')
             L_n1 = len(n1)
             e = ob.L_n1 - L_n1 + 1
             if L_n1 == 1:
                 return ob.n2 + n1 + '.0' + 'e' + str(-e)
             return ob.n2 + n1[-L_n1:-L_n1+1] + '.' + n1[-L_n1+1:] + 'e' + str(-e)
-        if ob.L_n0 == 1:
-            return ob.n
         e = ob.L_n0 - 1
         return ob.n2 + ob.n0[0] + '.' + ob.n0[1:] + ob.n1 + 'e' + str(e)
     
