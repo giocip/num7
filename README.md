@@ -3,7 +3,7 @@
 
 - _**`Num`**_ is a lightweight floating point numeric class for arbitrary precision results with always supreme precision.
 
-Easy to use like school math and WITHOUT IEEE754 ISSUES or +0 AND -0 FAILURES, it can be deployed  
+Easy to use like school math and WITHOUT IEEE754 ISSUES or -0 FAILURES, it can be deployed  
 for web e-commerce developing, accounting apps and general math programs included financial ones.  
 Compatible with MicroPython also a Rasperry pi pico (RP2040) can work with almost num7 capability.  
 
