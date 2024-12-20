@@ -1,4 +1,4 @@
-# SUPREME PRECISION GENERAL PURPOSE ARITHMETIC-LOGIC DECIMAL CLASS
+# num7 - SUPREME PRECISION GENERAL PURPOSE ARITHMETIC-LOGIC DECIMAL CLASS
 ## _DESCRIPTION AND DOC_
 
 - _**`Num`**_ is a lightweight floating point numeric class for arbitrary precision results with always supreme precision.
