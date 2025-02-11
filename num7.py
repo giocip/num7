@@ -270,7 +270,7 @@ class Num:
                 a = int(self.n0); b = int(self.n1[0:1]); c = self.n1[1:].rstrip('0')
                 if b > 5: 
                     a += 1
-                    return Num(self.n2 + str(a) + '.0') #12.51 => 13.0 integer
+                    return Num(self.n2 + str(a) + '.0') #12.6 => 13.0 integer
                 elif b == 5:
                     if a % 2: #odd
                         a += 1
