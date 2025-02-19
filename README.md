@@ -118,8 +118,8 @@ logic (in, not in, is, is not, <, <=, >, >=, !=, ==) and relational operators (a
 (is, is not):  
 
 	>>> M = calc('0.0'); Num('0.0') is M #False  
-	>>> M = calc('0.0'); M.inc('0.1') is not M; M #True Num('0.1')  
-	>>> M; N = M; N.dec('0.1'); N is M; M; N # Num('0.1') True Num('0.0') Num('0.0')  
+	>>> M = calc('0.0'); M.inc('0.1') is not M; #False 
+	>>> M; N = M; N.dec('0.1'); N is M; #True
 
 (< <= > >= != ==)  
 
