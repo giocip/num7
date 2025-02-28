@@ -303,22 +303,26 @@ PERFORMANCE EVALUATION AND SQUARENESS >>>
 	
 	from num7 import Num  
 	from time import perf_counter  	
+ 
 	tic = perf_counter() #Start Time  
 	a = Num('-1.123456789'+'e-100')      #calculating division 10**100...  
 	toc = perf_counter() #End Time  
 	T1 = toc - tic  
-	print(f"a finished sec. {T1:1.6f}")  
+	print(f"a finished sec. {T1:1.6f}") #a finished sec. 0.000062
+ 
 	tic = perf_counter() #Start Time  
 	b = ('-1.123456789') >> Num('100.0') #calculating division 10**100...  
 	toc = perf_counter() #End Time  
 	T2 = toc - tic  
-	print(f"b finished sec. {T2:1.6f}")  
+	print(f"b finished sec. {T2:1.6f}") #b finished sec. 0.000341
+ 
 	R = Num.f_perf_time(str(T1), str(T2))  
-	print('PCT=>', R[0].round(), 'SCALE=>', R[1].round(), 'SQUARENESS=>', a == b) #PCT= -98.6 SCALE= -70.47 SQUARENESS=> True  
+	print('PCT=>', R[0].round(), 'SCALE=>', R[1].round(), 'SQUARENESS=>', a == b) #PCT=> -81.87 SCALE=> -4.52 SQUARENESS=> True 
+ 
 	#stock exchange assets performance  
  	previous = Num('26.96'); now = Num('27.27')  
 	var_pct = Num.f_perf(previous, now).round()  
-   	print(f'{float(var_pct):+.2f}')  
+   	print(f'{float(var_pct):+.2f}') #+1.15
 
 SCIENTIFIC NOTATION AND HIGH PRECISION RESULTS >>>
 
