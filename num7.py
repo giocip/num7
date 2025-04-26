@@ -311,8 +311,8 @@ class Num:
                     a += 1
                     return Num(self.n2 + self.n0 + '.' + self.n1[0:d-1] + str(a)) #12.51 => 13.0 integer
                 else:  
-                    if not a:# a == 0
-                        return Num('0.0')
+                    if not int(self.n0) and int(self.n1) == 5:	# self.n0 == 0 and self.n1 == 5 (ex. -0.00000005 => 0.0)
+                        return Num('0.0') # ZERO SYMMETRIC MEETING
                     return Num(self.n2 + self.n0 + '.' + self.n1[0:d-1] + str(a)) #even 5.65 => 5.6 -0.05 => 0.0
             else: 
                 try:
