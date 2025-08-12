@@ -367,7 +367,8 @@ class Num:
         if i.is_numeven() and n.n2:
             raise ValueError("Num.root_i => Negative number:", n)																 
         if i < 0:
-            n = 1/n
+            n.d = (n.L_n0 + n.L_n1) if d < (n.L_n0 + n.L_n1) else d
+			n = Num.div(1, n)
             i = -i
         i = int(i)
         sign = '-' if n < 0 else ''
