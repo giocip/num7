@@ -505,7 +505,7 @@ class Num:
         if type(n) == float:
             raise ValueError("Num.__init__ => float, type not valid:", n)            																					 
         if type(n) == Num:
-            self.d    = n.d
+            self.d    = n.d if d < n.d else d
             self.n    = n.n
             self.n0   = n.n0
             self.n1   = n.n1
@@ -541,7 +541,7 @@ class Num:
         if self.n0 == '0' and self.n1 == '0': # zero get not any sign == BE CAREFUL!
             if self.n2 == '-' or n[0] == '+':
                 raise ValueError("Num.__init__ => zero can not be signed:", n)    																				  
-        self.d = d if d > self.L_n1 else self.L_n1 #precision
+        self.d = d if d > (self.L_n0 + self.L_n1) else (self.L_n0 + self.L_n1) #precision
 
     def __bool__(self) -> bool:
         ''' not logic unary operator '''
